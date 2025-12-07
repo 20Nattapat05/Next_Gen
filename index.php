@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Gen IT</title>
+    <?php include('include/header.php') ?>
+</head>
+
+<body class="bg-dark">
+    <?php include('include/navbar.php') ?>
+
+    <div class="container">
+        <div id="carouselExample" class="carousel slide mt-custom" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="assets/images/banner.jpg" alt="banner" class="w-100 rounded object-fit-cover"
+                        style="height: 700px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/banner.jpg" alt="banner2" class="w-100 rounded object-fit-cover"
+                        style="height: 700px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/banner.jpg" alt="banner3" class="w-100 rounded object-fit-cover"
+                        style="height: 700px;">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="card my-4 shadow-lg border-0">
+            <div class="card-body py-4">
+                <div class="row text-center align-items-center">
+                    <div class="col-md-4 my-auto">
+                        <a href="#" class="h5 mb-0 fw-semibold text-decoration-none">
+                            <i class="bi bi-ticket-perforated-fill text-primary me-1"
+                                style="transform: rotate(-30deg); display: inline-block;"></i>
+                            คูปองต่างๆ</a>
+                    </div>
+                    <div class="col-md-4 border-start border-end">
+                        <h4 class="mb-0 fw-bold text-main" id="realtime"></h4>
+                    </div>
+                    <div class="col-md-4 my-auto">
+                        <a href="#" class="h5 mb-0 fw-semibold text-decoration-none">
+                            <i class="bi bi-tags-fill text-danger me-1"></i>
+                            สินค้าเข้าร่วมแคมเปญ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- ข่าวเด่น -->
+            <div class="col-md-6">
+                <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#newsModal1">
+                    <div class="card my-3 border-0 shadow-sm overflow-hidden zoom-card"
+                        style="height: 500px; position: relative; cursor: pointer;">
+                        <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80"
+                            class="card-img object-fit-cover"
+                            style="height: 100%; filter: brightness(80%); transition: transform 0.4s ease;">
+                        <div class="card-img-overlay d-flex flex-column justify-content-end text-white p-4"
+                            style="background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);">
+                            <h3 class="fw-bold">ข่าวเด่นวันนี้</h3>
+                            <p class="mb-0">AI รุ่นใหม่กำลังเปลี่ยนโลกธุรกิจและการศึกษา</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ข่าวรอง -->
+            <div class="col-md-6">
+                <div class="row my-3">
+                    <!-- ข่าววงการเทค -->
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#newsModal2">
+                            <div class="card border-0 shadow-sm overflow-hidden zoom-card"
+                                style="height: 242px; position: relative; cursor: pointer;">
+                                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=400&q=80"
+                                    class="card-img object-fit-cover"
+                                    style="height: 100%; filter: brightness(75%); transition: transform 0.4s ease;">
+                                <div class="card-img-overlay d-flex flex-column justify-content-end text-white p-3"
+                                    style="background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);">
+                                    <h5 class="fw-semibold mb-1">เทคโนโลยีใหม่มาแรง</h5>
+                                    <small>รู้ทันนวัตกรรมที่กำลังเปลี่ยนโลกในปีนี้</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- ข่าวกิจกรรม -->
+                    <div class="col-md-6">
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#newsModal3">
+                            <div class="card border-0 shadow-sm overflow-hidden zoom-card"
+                                style="height: 242px; position: relative; cursor: pointer;">
+                                <img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=400&q=80"
+                                    class="card-img object-fit-cover"
+                                    style="height: 100%; filter: brightness(75%); transition: transform 0.4s ease;">
+                                <div class="card-img-overlay d-flex flex-column justify-content-end text-white p-3"
+                                    style="background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);">
+                                    <h5 class="fw-semibold mb-1">กิจกรรมและเวิร์กช็อป</h5>
+                                    <small>ร่วมเรียนรู้เทคโนโลยีล้ำสมัยกับผู้เชี่ยวชาญ</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- การ์ดเดิม -->
+                <a href="#" class="text-decoration-none">
+                    <div class="card my-3 border-0 shadow-sm overflow-hidden zoom-card"
+                        style="height: 242px; position: relative;">
+                        <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="card-img object-fit-cover"
+                            style="height: 100%; filter: brightness(80%); transition: transform 0.4s ease;">
+                        <div class="card-img-overlay d-flex flex-column justify-content-end text-white p-3"
+                            style="background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);">
+                            <h5 class="fw-semibold mb-1">แจ้งข่าวสารให้ผู้ดูแล</h5>
+                            <small>พบเจอปัญหา หรือ ติดต่อสอบถามข้อมูลเพิ่มเติม</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- MODALS -->
+        <!-- ข่าว 1 -->
+        <div class="modal fade" id="newsModal1" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">AI รุ่นใหม่กำลังเปลี่ยนโลกธุรกิจและการศึกษา</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid rounded mb-3" alt="ข่าวเด่น">
+                        <p>AI กำลังเข้ามามีบทบาทสำคัญในหลายอุตสาหกรรม ทั้งภาคธุรกิจ การศึกษา และภาครัฐ
+                            การพัฒนาโมเดลใหม่ทำให้ระบบสามารถเรียนรู้ได้เร็วขึ้น
+                            ตอบสนองความต้องการเฉพาะด้านได้ดียิ่งขึ้น...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ข่าว 2 -->
+        <div class="modal fade" id="newsModal2" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">เทคโนโลยีใหม่มาแรงในปีนี้</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid rounded mb-3" alt="ข่าวเทคโนโลยี">
+                        <p>ปีนี้เทคโนโลยีอย่าง Quantum Computing, Generative AI
+                            และอุปกรณ์สวมใส่กำลังกลายเป็นเทรนด์หลักที่ทุกบริษัทต้องจับตามอง...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ข่าว 3 -->
+        <div class="modal fade" id="newsModal3" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">กิจกรรมและเวิร์กช็อปเทคโนโลยี</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid rounded mb-3" alt="กิจกรรม">
+                        <p>มาร่วมกิจกรรม Hackathon และ Workshop เพื่อเรียนรู้เทคโนโลยีใหม่ๆ พร้อมพบปะผู้เชี่ยวชาญในวงการ
+                            พร้อมของรางวัลมากมาย!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="my-5">
+            <div class="row align-items-center g-4">
+                <!-- ฝั่งข้อความ -->
+                <div class="col-md-5">
+                    <h4 class="text-main mb-3">| ทำไมลูกค้าถึงเลือก Next Gen IT</h4>
+                    <ul class="list-unstyled text-light mb-4">
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            ราคาย่อมเยา เหมาะกับนักเรียน–นักศึกษา
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            มีบริการหลังการขายและรับประกันสินค้า
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            ให้คำปรึกษาสเปกคอมฟรีก่อนซื้อ
+                        </li>
+                    </ul>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <div>
+                            <h3 class="text-main fw-bold mb-0">4.8</h3>
+                            <small class="text-light">
+                                <i class="bi bi-star-fill text-warning"></i> จาก 5 คะแนน
+                            </small>
+                        </div>
+                        <div class="vr d-none d-md-block"></div>
+                        <div>
+                            <h3 class="text-main fw-bold mb-0">500+</h3>
+                            <small class="text-light">ลูกค้าที่ไว้วางใจเรา</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="card border-0 shadow-lg overflow-hidden bg-dark-subtle position-relative h-100">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-6">
+                                <img src="assets/images/banner.jpg" alt="หน้าร้าน Next Gen IT"
+                                    class="img-fluid h-100 w-100 object-fit-cover">
+                            </div>
+                            <div class="col-md-6 d-flex flex-column justify-content-between p-3 p-md-4">
+                                <div>
+                                    <span class="badge bg-success mb-2">Next Gen IT</span>
+                                    <h5 class="fw-bold text-main mb-2">บริการเป็นกันเอง แบบเพื่อนแนะนำเพื่อน</h5>
+                                    <p class="text-light-50 small mb-3">
+                                        ทีมงานสายไอทีตัวจริง พร้อมช่วยแนะนำสเปกคอม อุปกรณ์
+                                        และการใช้งานให้เหมาะกับงบของคุณ
+                                    </p>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/images/banner.jpg" alt="เพนกวิ้นมาสคอต Next Gen IT"
+                                        class="rounded-circle me-3"
+                                        style="width: 56px; height: 56px; object-fit: cover;">
+                                    <div>
+                                        <div class="fw-semibold text-main mb-1">เพนกวิ้น Next Gen</div>
+                                        <small class="text-light-50">
+                                            “เน้นของคุ้ม ใช้งานได้จริง บริการไม่ทิ้งลูกค้า”
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span
+                            class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-success-subtle text-success">
+                            เปิดให้บริการทุกวัน
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <h4 class="text-main my-4">| รายการสินค้าใหม่</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="#" class="text-decoration-none">
+                    <div class="card card-product border-0 mb-4">
+                        <img src="assets/images/banner.jpg" alt="New_product" class="w-100 object-fit-cover rounded-top"
+                            style="height: 350px;">
+                        <div class="card-body">
+                            <h5 class="fw-bold">Name products</h5>
+                            <h6 class="text-main">Price 300 บาท</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted float-end"><small>ขายแล้ว 50 ชิ้น</small></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#" class="text-decoration-none">
+                    <div class="card card-product border-0 mb-4">
+                        <img src="assets/images/banner.jpg" alt="New_product" class="w-100 object-fit-cover rounded-top"
+                            style="height: 350px;">
+                        <div class="card-body">
+                            <h5 class="fw-bold">Name products</h5>
+                            <h6 class="text-main">Price 300 บาท</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted float-end"><small>ขายแล้ว 50 ชิ้น</small></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#" class="text-decoration-none">
+                    <div class="card card-product border-0 mb-4">
+                        <img src="assets/images/banner.jpg" alt="New_product" class="w-100 object-fit-cover rounded-top"
+                            style="height: 350px;">
+                        <div class="card-body">
+                            <h5 class="fw-bold">Name products</h5>
+                            <h6 class="text-main">Price 300 บาท</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted float-end"><small>ขายแล้ว 50 ชิ้น</small></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <?php include('include/footer.php') ?>
+    <script>
+    function updateTime() {
+        const now = new Date();
+        const options = {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        document.getElementById("realtime").textContent = now.toLocaleTimeString('th-TH', options);
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+    </script>
+</body>
+
+</html>

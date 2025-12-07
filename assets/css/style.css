@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+
+* {
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-main: #06923E;
+    --color-main-hover: #255F38;
+    --color-dark: #121212;
+}
+
+#realtime {
+    letter-spacing: 2px;
+}
+
+.mt-custom {
+    margin-top: 6rem;
+}
+
+.text-main {
+    color: var(--color-main);
+}
+
+.text-banner {
+    color: var(--color-main);
+}
+
+.text-banner:hover {
+    color: var(--color-main-hover);
+}
+
+.bg-dark {
+    background-color: var(--color-dark) !important;
+}
+
+.btn-main {
+    background-color: var(--color-main);
+    color: #fff;
+}
+
+.btn-main:hover {
+    background-color: var(--color-main-hover);
+    color: #fff;
+}
+
+.nav-link:hover {
+    color: var(--color-main);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.zoom-card {
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.zoom-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.zoom-card:hover img {
+    transform: scale(1.05);
+    filter: brightness(90%);
+}
+
+.zoom-card:hover .card-img-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+}
+
+.card-product {
+    transition: .5s;
+}
+
+.card-product:hover {
+    transform: translateY(-10px);
+    transition: .5s;
+}
