@@ -39,6 +39,10 @@
     background-color: var(--color-dark) !important;
 }
 
+.bg-main {
+    background-color: var(--color-main) !important;
+}
+
 .btn-main {
     background-color: var(--color-main);
     color: #fff;
@@ -79,4 +83,18 @@
 .card-product:hover {
     transform: translateY(-10px);
     transition: .5s;
+}
+
+.card-admin {
+    transition: .5s;
+}
+
+.card-admin:hover {
+    transition: .5s;
+    background-color: #efefef;
+}
+
+.card-admin-home-hight {
+    max-height: 350px;
+    overflow-y: auto;
 }
