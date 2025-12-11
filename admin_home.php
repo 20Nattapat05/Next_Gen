@@ -12,10 +12,10 @@
     <?php include('include/navbar_admin.php') ?>
     <div class="container">
         <div class="row mt-custom">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="text-main mb-3">วันนี้</h4>
+                        <h4 class="text-main mb-3">ยอดขายประจำวันนี้</h4>
                         <div class="row">
                             <div class="col-md-6">
                                 <h5 class="bg-main py-2 text-light rounded text-center">100 ชิ้น</h5>
@@ -24,10 +24,124 @@
                                 <h5 class="bg-main py-2 text-light rounded text-center">600 บาท</h5>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card bg-secondary">
+                                    <div class="card-body">
+                                        <h5 class="mb-3">รายรับทั้งหมด</h5>
+                                        <h6 class="bg-dark py-2 text-light rounded text-center">15000 บาท</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-secondary">
+                                    <div class="card-body">
+                                        <h5 class="mb-3">จำนวนผู้ใช้งาน</h5>
+                                        <h6 class="bg-dark py-2 text-light rounded text-center">100 คน</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm" style="height: 244px; overflow-y: auto;">
+                    <div class="card-body">
+                        <h4>Event</h4>
+                        <!-- add -->
+                        <form action="" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="" id="" placeholder="ชื่ออีเว้นท์">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" name="" id="" placeholder="ลดราคา %">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-main w-100">+ เพิ่ม</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- start-loop -->
+                        <div class="card my-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-5 my-auto">
+                                        <h6 class="mb-0">ชื่ออีเว้นท์</h6>
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <h6 class="mb-0">ลดราคา %</h6>
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <h6 class="mb-0">100 รายการ</h6>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a href="#" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end-loop -->
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="card my-3" style="max-height: 350px; overflow-y: auto;">
+            <div class="card-body">
+                <h4 class="text-main mb-3">คูปอง</h4>
+                <!-- add -->
+                <div class="card shadow-sm my-2 bg-secondary">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="" required placeholder="ชื่อคูปอง">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="" required placeholder="รหัสคูปอง">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" class="form-control" name="" required
+                                        placeholder="ราคาที่ลด - บาท">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" class="form-control" name="" required placeholder="จำนวน">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-success w-100">+ เพิ่มคูปอง</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- start-loop -->
+                <div class="card shadow-sm my-2 card-admin">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 my-auto">
+                                <h6 class="mb-0">ชื่อคูปอง</h6>
+                            </div>
+                            <div class="col-md-3 my-auto">
+                                <h6 class="mb-0 fw-bold">รหัสคูปอง</h6>
+                            </div>
+                            <div class="col-md-3 my-auto">
+                                <h6 class="mb-0">ราคาที่ลด - บาท</h6>
+                            </div>
+                            <div class="col-md-2 my-auto">
+                                <h6 class="mb-0">จำนวน - คน</h6>
+                            </div>
+                            <div class="col-md-1 my-auto">
+                                <h6 class="mb-0 bg-danger text-light py-2 rounded text-center">5</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end-loop -->
+            </div>
+        </div>
+
         <div class="row mt-3">
             <!-- ข้อความ -->
             <div class="col-md-6">

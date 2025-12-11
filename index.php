@@ -115,7 +115,7 @@
                 </div>
 
                 <!-- การ์ดเดิม -->
-                <a href="#" class="text-decoration-none">
+                <a href="contact" class="text-decoration-none">
                     <div class="card my-3 border-0 shadow-sm overflow-hidden zoom-card"
                         style="height: 242px; position: relative;">
                         <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

@@ -43,6 +43,10 @@
     background-color: var(--color-main) !important;
 }
 
+.bg-secondary {
+    background-color: #E6E6E6 !important;
+}
+
 .btn-main {
     background-color: var(--color-main);
     color: #fff;
