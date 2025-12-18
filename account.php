@@ -48,7 +48,7 @@
                         <a href="#" class="btn btn-outline-success w-100 mb-1">จัดการที่อยู่</a>
                         <a href="#" class="btn btn-outline-primary w-100 my-1">แก้ไขบัญชี</a>
                         <a href="#" class="btn btn-outline-warning w-100 my-1">แก้ไขรหัสผ่าน</a>
-                        <a href="#" class="btn btn-outline-danger w-100 mt-1">ออกจากระบบ</a>
+                        <a href="#" class="btn btn-danger w-100 mt-1">ออกจากระบบ</a>
                     </div>
                 </div>
             </div>
