@@ -16,6 +16,9 @@
                     <a class="nav-link mx-1" href="admin_product">จัดการสินค้า</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link mx-1" href="admin_order">ออเดอร์</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link mx-1" href="admin_news">ข่าวสาร</a>
                 </li>
                 <li class="nav-item">
