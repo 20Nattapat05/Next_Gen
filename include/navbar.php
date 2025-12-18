@@ -29,19 +29,14 @@
     </div>
 </nav>
 
-<div class="modal fade" id="cart" tabindex="-1">
+<div class="modal fade" id="cart">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
-            <!-- Header -->
             <div class="modal-header">
                 <h5 class="modal-title">🛒 ตะกร้าสินค้า</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
-            <!-- Body -->
             <div class="modal-body">
-
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
@@ -78,12 +73,30 @@
                         </tr>
                     </tbody>
                 </table>
-
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <form action="" method="post">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" name="" id="" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-main w-100">ใช้คูปอง</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- if -->
+                        <div class="text-end mt-4">
+                            <h5 class="text-danger">ใช้คูปอง "สวัสดีปีใหม่"</h5>
+                            <h5 class="text-danger">- 30 บาท</h5>
+                        </div>
+                        <!-- end if -->
+                    </div>
+                </div>
             </div>
-
-            <!-- Footer -->
             <div class="modal-footer justify-content-between">
-                <h5 class="mb-0">รวมทั้งหมด: <strong>2,030</strong> บาท</h5>
+                <h5 class="mb-0">รวมทั้งหมด: <strong>2,000</strong> บาท</h5>
                 <button class="btn btn-success">ชำระเงิน</button>
             </div>
 

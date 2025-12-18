@@ -41,7 +41,7 @@
             <div class="card-body py-4">
                 <div class="row text-center align-items-center">
                     <div class="col-md-4 my-auto">
-                        <a href="#" class="h5 mb-0 fw-semibold text-decoration-none">
+                        <a href="coupon" class="h5 mb-0 fw-semibold text-decoration-none">
                             <i class="bi bi-ticket-perforated-fill text-primary me-1"
                                 style="transform: rotate(-30deg); display: inline-block;"></i>
                             คูปองต่างๆ</a>
