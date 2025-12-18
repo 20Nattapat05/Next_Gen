@@ -7,16 +7,13 @@
     <title>Next Gen IT</title>
     <?php include('include/header.php') ?>
     <style>
-    .posit-account {
-        top: -120px;
-        left: 200px;
+    .h-account {
+        height: 180px;
     }
 
-    @media screen and (max-width: 768px) {
-        .posit-account {
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
+    @media only screen and (max-width: 768px) {
+        .h-account {
+            height: 350px;
         }
     }
     </style>
@@ -25,92 +22,52 @@
 <body class="bg-dark">
     <?php include('include/navbar_admin.php') ?>
     <div class="container">
-        <div class="row justify-content-center align-items-center vh-100">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="card mt-custom text-center pb-3 pt-5">
-                    <center>
-                        <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80"
-                            class="object-fit-cover rounded-circle position-absolute posit-account"
-                            style="height: 250px; width: 250px;">
-                    </center>
-                    <div class="card-body pt-5">
-                        <h4 class="mt-3 mb-2 pt-5">Fullname Lastname</h4>
-                        <h6 class="mb-3 text-muted">Status: Admin</h6>
-                        <h5 class="mb-3">Email: </h5>
-                        <h5 class="mb-5">Phone: </h5>
+        <div class="row mt-custom">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="#" class="btn btn-warning w-100" data-bs-toggle="modal"
-                                            data-bs-target="#editaccount">แก้ไขบัญชี</a>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                            data-bs-target="#editpassword">แก้ไขรหัสผ่าน</a>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-danger w-100 my-2">ออกจากระบบ</a>
+                            <div class="col-md-3">
+                                <img src="assets/images/banner.jpg" alt="Profile"
+                                    class="w-100 rounded-circle object-fit-cover h-account">
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-9 my-auto">
+                                <h2 class="mb-0">FULLNAME ACCOUNT</h2>
+                                <h5>Admin <span class="mx-2">|</span> Username</h5>
+                                <hr>
+                                <h5>Emali: natota4801@gmail.com</h5>
+                                <h5>Phone: 098 981 2451</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3"></div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="editaccount">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">แก้ไขบัญชี</h1>
-                        <button class="btn-close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="post">
-                            <label for="">ชื่อ</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">นามสกุล</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">Email</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">Phone</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">รูปภาพ</label>
-                            <input type="file" class="form-control mb-2" name="" id="" required>
-                            <button type="submit" class="btn btn-main w-100">Save changes</button>
-                        </form>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <a href="#" class="btn btn-outline-success w-100 mb-1">จัดการที่อยู่</a>
+                        <a href="#" class="btn btn-outline-primary w-100 my-1">แก้ไขบัญชี</a>
+                        <a href="#" class="btn btn-outline-warning w-100 my-1">แก้ไขรหัสผ่าน</a>
+                        <a href="#" class="btn btn-outline-danger w-100 mt-1">ออกจากระบบ</a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="editpassword">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">แก้ไขรหัสผ่าน</h1>
-                        <button class="btn-close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="post">
-                            <label for="">รหัสผ่านเก่า</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">รหัสผ่านใหม่</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">ยืนยันรหัสผ่าน</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <button type="submit" class="btn btn-main w-100">Save changes</button>
-                        </form>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <h5>ที่อยู่ 1</h5>
+                        <hr>
+                        <h6>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, neque!</h6>
+                        <h6 class="fw-bold mt-3">รายละเอียดเพิ่มเติม</h6>
+                        <h6>Lorem ipsum dolor</h6>
+                        <hr>
+                        <a href="#" class="btn btn-danger btn-sm w-100">ลบ</a>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <?php include('include/footer.php') ?>
