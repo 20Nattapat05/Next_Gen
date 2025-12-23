@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,18 +34,18 @@
                         </div>
 
                         <!-- ฟอร์ม Login -->
-                        <form action="login_process.php" method="post">
+                        <form action="router/login.router.php" method="post">
 
                             <div class="mb-3">
-                                <label for="email" class="form-label">อีเมล หรือ ชื่อผู้ใช้</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                       placeholder="กรอกอีเมลหรือชื่อผู้ใช้" required>
+                                <label for="username" class="form-label">อีเมล หรือ ชื่อผู้ใช้</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="กรอกอีเมลหรือชื่อผู้ใช้" required>
                             </div>
 
                             <div class="mb-4">
                                 <label for="password" class="form-label">รหัสผ่าน</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="กรอกรหัสผ่าน" required>
+                                    placeholder="กรอกรหัสผ่าน" required>
                             </div>
 
                             <button type="submit" class="btn btn-main w-100">
@@ -53,7 +58,7 @@
 
                         <div class="text-center">
                             <small class="text-muted">
-                                ยังไม่มีบัญชี? 
+                                ยังไม่มีบัญชี?
                                 <a href="register" class="text-main text-decoration-none fw-semibold">
                                     สมัครสมาชิกใหม่
                                 </a>
@@ -72,7 +77,23 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (isset($_SESSION['login_error'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'เข้าสู่ระบบไม่สำเร็จ',
+                text: '<?php echo $_SESSION['login_error']; ?>',
+                confirmButtonColor: '#d33'
+            });
+        </script>
+    <?php
+        unset($_SESSION['login_error']);
+    endif; ?>
+
     <?php include('include/footer.php') ?>
+
 
 </body>
 

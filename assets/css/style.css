@@ -29,10 +29,12 @@
 
 .text-banner {
     color: var(--color-main);
+    transition: .5s;
 }
 
 .text-banner:hover {
     color: var(--color-main-hover);
+    transition: .5s;
 }
 
 .bg-dark {
@@ -50,15 +52,23 @@
 .btn-main {
     background-color: var(--color-main);
     color: #fff;
+    transition: .5s;
 }
 
 .btn-main:hover {
     background-color: var(--color-main-hover);
+    transition: .5s;
     color: #fff;
 }
 
 .nav-link:hover {
     color: var(--color-main);
+    transition: .5s;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.nav-link{
+    transition: .5s;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 

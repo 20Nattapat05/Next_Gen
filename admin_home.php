@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -212,6 +217,24 @@
     </div>
 
     <?php include('include/footer.php') ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (isset($_SESSION['login_success'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'เข้าสู่ระบบสำเร็จ',
+                text: 'ยินดีต้อนรับเข้าสู่ระบบ Next Gen IT',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    <?php
+        unset($_SESSION['login_success']);
+    endif; ?>
 </body>
+
+
 
 </html>
