@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2025 at 02:19 PM
+-- Generation Time: Dec 27, 2025 at 04:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,11 +57,19 @@ CREATE TABLE `user_tb` (
   `user_password` varchar(100) NOT NULL,
   `user_fullname` varchar(255) NOT NULL,
   `user_email` varchar(100) NOT NULL,
-  `user_status` enum('active','inactive') NOT NULL,
-  `user_address_id` int(11) NOT NULL,
+  `user_phone` varchar(10) NOT NULL,
+  `user_status` enum('active','unactive') NOT NULL,
+  `user_address_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_tb`
+--
+
+INSERT INTO `user_tb` (`user_id`, `user_username`, `user_password`, `user_fullname`, `user_email`, `user_phone`, `user_status`, `user_address_id`, `created_at`, `updated_at`) VALUES
+(1, 'user1', '$2y$10$KoRKCM1a.ETV2au0W8GZvO1XYx3KhzwXOdkgdk/ogkOsYaK2zd9/m', 'สมชาย ใจดี', 'name@gmail.com', '0252525252', 'active', NULL, '2025-12-27 22:25:49', '2025-12-27 22:25:49');
 
 --
 -- Indexes for dumped tables
@@ -93,7 +101,7 @@ ALTER TABLE `admin_tb`
 -- AUTO_INCREMENT for table `user_tb`
 --
 ALTER TABLE `user_tb`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

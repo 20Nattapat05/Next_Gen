@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,40 +34,39 @@
                         </div>
 
                         <!-- ฟอร์มสมัครสมาชิก -->
-                        <form action="register_process.php" method="post">
+                        <form action="router/register.router.php" method="post">
                             <!-- ชื่อ -->
                             <div class="mb-3">
                                 <label for="fullname" class="form-label">ชื่อ–นามสกุล</label>
                                 <input type="text" class="form-control" id="fullname" name="fullname"
-                                    placeholder="เช่น สมชาย ใจดี" required>
+                                    placeholder="เช่น สมชาย ใจดี">
                             </div>
 
                             <!-- อีเมล -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">อีเมล</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="name@example.com" required>
+                                <input class="form-control" id="email" name="email"
+                                    placeholder="name@example.com">
                             </div>
 
                             <!-- เบอร์โทร -->
                             <div class="mb-3">
                                 <label for="phone" class="form-label">เบอร์โทรศัพท์</label>
-                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="0X-XXX-XXXX"
-                                    required>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="0XXXXXXXXX">
                             </div>
 
                             <!-- ชื่อผู้ใช้ (ถ้าอยากให้มี) -->
                             <div class="mb-3">
                                 <label for="username" class="form-label">ชื่อผู้ใช้</label>
                                 <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="ตั้งชื่อผู้ใช้ของคุณ" required>
+                                    placeholder="ตั้งชื่อผู้ใช้ของคุณ">
                             </div>
 
                             <!-- รหัสผ่าน -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">รหัสผ่าน</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="ตั้งรหัสผ่าน" required>
+                                    placeholder="ตั้งรหัสผ่าน">
                                 <small class="text-muted">
                                     อย่างน้อย 8 ตัวอักษร ผสมตัวเลข/ตัวอักษรให้ปลอดภัยขึ้น
                                 </small>
@@ -72,7 +76,7 @@
                             <div class="mb-3">
                                 <label for="password_confirm" class="form-label">ยืนยันรหัสผ่าน</label>
                                 <input type="password" class="form-control" id="password_confirm"
-                                    name="password_confirm" placeholder="พิมพ์รหัสผ่านอีกครั้ง" required>
+                                    name="password_confirm" placeholder="พิมพ์รหัสผ่านอีกครั้ง">
                             </div>
 
                             <button type="submit" class="btn btn-main w-100">
@@ -102,6 +106,22 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (isset($_SESSION['register_error'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: '<?php echo $_SESSION['register_error']; ?>',
+                confirmButtonColor: '#d33'
+            });
+        </script>
+        <?php unset($_SESSION['register_error']); ?>
+    <?php endif; ?>
+
+
 
     <?php include('include/footer.php') ?>
 

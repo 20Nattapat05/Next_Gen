@@ -106,6 +106,18 @@ if (session_status() === PHP_SESSION_NONE) {
         unset($_SESSION['logout_success']);
     endif; ?>
 
+    <?php if (isset($_SESSION['register_success'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ!',
+                text: '<?php echo $_SESSION['register_success']; ?>',
+                confirmButtonColor: '#3085d6'
+            });
+        </script>
+        <?php unset($_SESSION['register_success']); ?>
+    <?php endif; ?>
+
     <?php include('include/footer.php') ?>
 
 
