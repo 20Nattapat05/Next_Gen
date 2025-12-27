@@ -1,3 +1,8 @@
+<?php
+
+    require_once 'include/check_auth_admin.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +53,7 @@
                         <a href="#" class="btn btn-outline-success w-100 mb-1">จัดการที่อยู่</a>
                         <a href="#" class="btn btn-outline-primary w-100 my-1">แก้ไขบัญชี</a>
                         <a href="#" class="btn btn-outline-warning w-100 my-1">แก้ไขรหัสผ่าน</a>
-                        <a href="#" class="btn btn-danger w-100 mt-1">ออกจากระบบ</a>
+                        <button type="button" onclick="confirmLogout()" class="btn btn-danger w-100 mt-1">ออกจากระบบ</button>
                     </div>
                 </div>
             </div>
@@ -69,6 +74,56 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+function confirmLogout() {
+    Swal.fire({
+        title: 'ยืนยันการออกจากระบบ?',
+        text: "คุณต้องการออกจากระบบ Next Gen IT ใช่หรือไม่",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33', 
+        cancelButtonColor: '#6c757d', 
+        confirmButtonText: 'ใช่, ออกจากระบบ',
+        cancelButtonText: 'ยกเลิก',
+        // ตกแต่งให้เข้ากับธีม Dark
+        background: '#2b2b2b',
+        color: '#ffffff',
+        iconColor: '#f8bb86'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // ส่งไปที่ไฟล์ Logout Router
+            window.location.href = 'router/logout.router.php';
+        }
+    })
+}
+</script>
+
+    <script>
+        function checkBackNavigation() {
+            const navEntries = performance.getEntriesByType('navigation');
+            if (navEntries.length > 0) {
+                const navType = navEntries[0].type;
+                if (navType === 'back_forward') {
+                    window.location.reload();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        window.addEventListener('pageshow', function(event) {
+            const isBack = event.persisted || checkBackNavigation();
+
+            if (isBack) {
+                window.location.reload();
+            }
+        });
+
+        window.addE
+    </script>
 
     <?php include('include/footer.php') ?>
 </body>

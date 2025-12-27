@@ -1,3 +1,8 @@
+<?php
+
+require_once 'include/check_auth_admin.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -182,6 +187,31 @@
 
         </div>
     </div>
+
+
+    <script>
+        function checkBackNavigation() {
+            const navEntries = performance.getEntriesByType('navigation');
+            if (navEntries.length > 0) {
+                const navType = navEntries[0].type;
+                if (navType === 'back_forward') {
+                    window.location.reload();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        window.addEventListener('pageshow', function(event) {
+            const isBack = event.persisted || checkBackNavigation();
+
+            if (isBack) {
+                window.location.reload();
+            }
+        });
+
+        window.addE
+    </script>
 
     <?php include('include/footer.php') ?>
 </body>

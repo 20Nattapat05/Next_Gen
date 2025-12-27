@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link mx-1" href="/Nextgen_it/">หน้าแรก</a>
+                    <a class="nav-link mx-1" href="/Next_Gen/">หน้าแรก</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-1" href="products">รายการสินค้า</a>

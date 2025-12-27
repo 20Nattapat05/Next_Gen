@@ -92,6 +92,20 @@ if (session_status() === PHP_SESSION_NONE) {
         unset($_SESSION['login_error']);
     endif; ?>
 
+
+    <?php if (isset($_SESSION['logout_success'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'ออกจากระบบสำเร็จ',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    <?php
+        unset($_SESSION['logout_success']);
+    endif; ?>
+
     <?php include('include/footer.php') ?>
 
 
