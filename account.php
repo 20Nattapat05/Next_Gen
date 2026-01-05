@@ -122,7 +122,6 @@ function confirmLogout() {
             }
         });
 
-        window.addE
     </script>
 
     <?php include('include/footer.php') ?>

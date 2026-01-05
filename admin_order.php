@@ -173,8 +173,7 @@ require_once 'include/check_auth_admin.php';
                 window.location.reload();
             }
         });
-
-        window.addE
+        
     </script>
 
     <?php include('include/footer.php') ?>

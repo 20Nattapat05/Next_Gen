@@ -256,7 +256,6 @@ require_once 'include/check_auth_admin.php';
             }
         });
 
-        window.addE
     </script>
 </body>
 

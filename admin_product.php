@@ -23,42 +23,59 @@ require_once 'include/check_auth_admin.php';
                 <h3 class="text-main mb-0">| รายการสินค้า</h3>
             </div>
             <div class="col-md-2">
-                <a href="#" class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">+
+                <a href="#" class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#AddProduct">+
                     เพิ่มสินค้า</a>
             </div>
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal">
+        <div class="modal fade" id="AddProduct">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Modal title</h1>
-                        <button class="btn-close"></button>
+                        <h1 class="modal-title fs-5">เพิ่มรายการสินค้า</h1>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post">
-                            <label for="">ชื่อสินค้า</label>
-                            <input type="text" class="form-control mb-2" name="" id="" required>
-                            <label for="">ราคา</label>
-                            <input type="number" class="form-control mb-2" name="" id="" required>
-                            <label for="">รายละเอียด</label>
-                            <textarea class="form-control mb-2" name="" id="" required></textarea>
-                            <label for="">รูปภาพ</label>
-                            <input type="file" class="form-control mb-2" name="" id="" required>
-                            <label for="">ประเภท</label>
-                            <select class="form-select mb-2" name="" id="" required>
-                                <option value="">1</option>
-                                <option value="">2</option>
+                        <form action="router/manageproduct.router.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="action" value="add">
+
+                            <label>ชื่อสินค้า <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control mb-2" name="product_name" required>
+
+                            <label>ราคา <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control mb-2" name="product_price" required>
+
+                            <label>จำนวน <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control mb-2" name="product_qty" required>
+
+                            <label>รายละเอียด</label>
+                            <textarea class="form-control mb-2" name="product_detail"></textarea>
+
+                            <label>รูปภาพ <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control mb-2" name="product_picture" id="imgAddInput" accept="image/*" required>
+
+                            <div class="text-center mb-2">
+                                <img id="previewImgAdd" src="" class="img-fluid rounded shadow-sm d-none" style="max-height: 200px;">
+                            </div>
+
+                            <label>ประเภท <span class="text-danger">*</span></label>
+                            <select class="form-select mb-2" name="product_type_id" required>
+                                <option value="" selected disabled>-- เลือกประเภท --</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
                             </select>
+
                             <hr class="my-3">
-                            <label for="">โปรโมชั่น</label>
-                            <select class="form-select mb-2" name="" id="" required>
-                                <option value="">ไม่มี</option>
-                                <option value="">event 1</option>
-                                <option value="">event 2</option>
+
+                            <label>โปรโมชั่น</label>
+                            <select class="form-select mb-2" name="event_id">
+                                <option value="0">ไม่มี</option>
+                                <option value="1">event 1</option>
+                                <option value="2">event 2</option>
                             </select>
-                            <button type="submit" class="btn btn-main w-100">Save changes</button>
+
+                            <button type="submit" class="btn btn-main w-100">บันทึกสินค้า</button>
                         </form>
                     </div>
                 </div>
@@ -153,7 +170,7 @@ require_once 'include/check_auth_admin.php';
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5">แก้ไข title</h1>
+                            <h1 class="modal-title fs-5">แก้ไข</h1>
                             <button class="btn-close"></button>
                         </div>
                         <div class="modal-body">
@@ -165,7 +182,10 @@ require_once 'include/check_auth_admin.php';
                                 <label for="">รายละเอียด</label>
                                 <textarea class="form-control mb-2" name="" id="" required></textarea>
                                 <label for="">รูปภาพ</label>
-                                <input type="file" class="form-control mb-2" name="" id="" required>
+                                <input type="file" class="form-control mb-2" name="product_picture" id="imgEditInput" accept="image/*">
+                                <div class="text-center mb-2">
+                                    <img id="previewImgEdit" src="" class="img-fluid rounded shadow-sm d-none" style="max-height: 200px;">
+                                </div>
                                 <label for="">ประเภท</label>
                                 <select class="form-select mb-2" name="" id="" required>
                                     <option value="">1</option>
@@ -188,6 +208,63 @@ require_once 'include/check_auth_admin.php';
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (isset($_SESSION['success'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ!',
+                // ลบ single quote '...' ออก แล้วใช้ json_encode แทน
+                text: <?php echo json_encode($_SESSION['success']); ?>,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด!',
+                text: <?php echo json_encode($_SESSION['error']); ?>
+            });
+        </script>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+    <script>
+        const imgAddInput = document.getElementById('imgAddInput');
+        const previewImgAdd = document.getElementById('previewImgAdd');
+
+        if (imgAddInput) {
+            imgAddInput.onchange = evt => {
+                const [file] = imgAddInput.files;
+                if (file) {
+                    if (previewImgAdd.src.startsWith('blob:')) {
+                        URL.revokeObjectURL(previewImgAdd.src);
+                    }
+
+                    previewImgAdd.src = URL.createObjectURL(file);
+                    previewImgAdd.classList.remove('d-none');
+                }
+            };
+        }
+
+        const addModal = document.getElementById('AddProduct');
+        if (addModal) {
+            addModal.addEventListener('hidden.bs.modal', function() {
+                if (previewImgAdd.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(previewImgAdd.src);
+                }
+                previewImgAdd.src = '';
+                previewImgAdd.classList.add('d-none');
+                this.querySelector('form').reset();
+            });
+        }
+    </script>
 
     <script>
         function checkBackNavigation() {
@@ -209,8 +286,6 @@ require_once 'include/check_auth_admin.php';
                 window.location.reload();
             }
         });
-
-        window.addE
     </script>
 
     <?php include('include/footer.php') ?>
