@@ -2,6 +2,10 @@
 
 require_once 'include/check_auth_admin.php';
 
+require_once __DIR__ . '/function/admin/product_type_function.php';
+
+$product_type_item = getAllProductTypes();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,14 +23,98 @@ require_once 'include/check_auth_admin.php';
 
         <!-- หัวข้อ -->
         <div class="row mt-custom mb-3">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <h3 class="text-main mb-0">| รายการสินค้า</h3>
             </div>
             <div class="col-md-2">
-                <a href="#" class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#AddProduct">+
-                    เพิ่มสินค้า</a>
+                <a href="#" class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#AddProductType">เพิ่มประเภทสินค้า</a>
+            </div>
+            <div class="col-md-2">
+                <a href="#" class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#AddProduct">เพิ่มสินค้า</a>
             </div>
         </div>
+
+        <div class="modal fade" id="AddProductType" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-dark text-white">
+                        <h1 class="modal-title fs-5"><i class="bi bi-tag-fill me-2"></i>จัดการประเภทสินค้า</h1>
+                        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <form action="router/manageproducttype.router.php" method="post" class="mb-4">
+                            <input type="hidden" name="prod" value="add">
+                            <div class="form-group">
+                                <label class="form-label fw-bold text-primary">เพิ่มประเภทใหม่</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="product_type_name" placeholder="ชื่อประเภทสินค้า...">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-plus-lg"></i> บันทึก
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+                        <hr>
+
+                        <label class="form-label fw-bold mb-2">ประเภทสินค้าที่มีอยู่แล้ว</label>
+
+                        <div class="list-group shadow-sm" style="max-height: 250px; overflow-y: auto;">
+
+                            <?php
+                            if (isset($product_type_item) && !empty($product_type_item)) {
+                                foreach ($product_type_item as $id => $item) {
+                            ?>
+                                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3">
+                                        <div>
+                                            <span class="badge bg-secondary text-dark me-2"><?php echo $id + 1; ?></span>
+                                            <span class="fw-semibold"><?php echo htmlspecialchars($item['product_type_name']); ?></span>
+                                        </div>
+                                        <form action="router/manageproducttype.router.php" method="post">
+                                            <input type="hidden" name="delete_product_type_id" value="<?php echo $item['product_type_id']; ?>">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm border-0">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                <?php
+                                }
+                            } else {
+                                ?>
+
+                                <div class="text-center text-muted py-3">
+                                    ไม่มีประเภทสินค้าในระบบ
+                                </div>
+
+                            <?php } ?>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="form-text mt-3 text-muted">
+                            <i class="bi bi-info-circle"></i> หมายเหตุ : หากต้องการลบประเภทสินค้า กรุณาตรวจสอบให้แน่ใจว่าไม่มีสินค้าที่อยู่ในประเภทนั้นก่อน
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const addTypeModal = document.getElementById('AddProductType');
+            if (addTypeModal) {
+                addTypeModal.addEventListener('hidden.bs.modal', function() {
+                    // ค้นหาฟอร์มด้านในแล้ว Reset ค่าทั้งหมด
+                    const form = this.querySelector('form');
+                    if (form) form.reset();
+                });
+            }
+        </script>
 
         <!-- Modal -->
         <div class="modal fade" id="AddProduct">
@@ -224,6 +312,24 @@ require_once 'include/check_auth_admin.php';
         <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
 
+
+
+    <?php if (isset($_SESSION['product_type_success'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ!',
+                // ลบ single quote '...' ออก แล้วใช้ json_encode แทน
+                text: <?php echo json_encode($_SESSION['product_type_success']); ?>,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+        <?php unset($_SESSION['product_type_success']); ?>
+    <?php endif; ?>
+
+
+
     <?php if (isset($_SESSION['error'])): ?>
         <script>
             Swal.fire({
@@ -233,6 +339,19 @@ require_once 'include/check_auth_admin.php';
             });
         </script>
         <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+
+
+    <?php if (isset($_SESSION['product_type_input_error'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด!',
+                text: <?php echo json_encode($_SESSION['product_type_input_error']); ?>
+            });
+        </script>
+        <?php unset($_SESSION['product_type_input_error']); ?>
     <?php endif; ?>
 
     <script>
