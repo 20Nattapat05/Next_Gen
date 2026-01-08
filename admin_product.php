@@ -2,10 +2,14 @@
 
 require_once 'include/check_auth_admin.php';
 
+// นำเข้าไฟล์ Function ให้ครบ
 require_once __DIR__ . '/function/admin/product_type_function.php';
+require_once __DIR__ . '/function/admin/event_function.php';
+require_once __DIR__ . '/function/admin/product_function.php'; // เพิ่มไฟล์นี้เพื่อดึงสินค้า
 
+// ดึงข้อมูล
 $product_type_item = getAllProductTypes();
-
+$all_products = GetAllProduct(); // ดึงสินค้าทั้งหมด
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +25,6 @@ $product_type_item = getAllProductTypes();
     <?php include('include/navbar_admin.php') ?>
     <div class="container">
 
-        <!-- หัวข้อ -->
         <div class="row mt-custom mb-3">
             <div class="col-md-8">
                 <h3 class="text-main mb-0">| รายการสินค้า</h3>
@@ -42,8 +45,6 @@ $product_type_item = getAllProductTypes();
                         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-
-
                         <form action="router/manageproducttype.router.php" method="post" class="mb-4">
                             <input type="hidden" name="prod" value="add">
                             <div class="form-group">
@@ -56,15 +57,9 @@ $product_type_item = getAllProductTypes();
                                 </div>
                             </div>
                         </form>
-
-
-
                         <hr>
-
                         <label class="form-label fw-bold mb-2">ประเภทสินค้าที่มีอยู่แล้ว</label>
-
                         <div class="list-group shadow-sm" style="max-height: 250px; overflow-y: auto;">
-
                             <?php
                             if (isset($product_type_item) && !empty($product_type_item)) {
                                 foreach ($product_type_item as $id => $item) {
@@ -81,22 +76,16 @@ $product_type_item = getAllProductTypes();
                                             </button>
                                         </form>
                                     </div>
-
                                 <?php
                                 }
                             } else {
                                 ?>
-
                                 <div class="text-center text-muted py-3">
                                     ไม่มีประเภทสินค้าในระบบ
                                 </div>
-
                             <?php } ?>
-
                         </div>
-
                         <hr>
-
                         <div class="form-text mt-3 text-muted">
                             <i class="bi bi-info-circle"></i> หมายเหตุ : หากต้องการลบประเภทสินค้า กรุณาตรวจสอบให้แน่ใจว่าไม่มีสินค้าที่อยู่ในประเภทนั้นก่อน
                         </div>
@@ -105,196 +94,197 @@ $product_type_item = getAllProductTypes();
             </div>
         </div>
 
-        <script>
-            const addTypeModal = document.getElementById('AddProductType');
-            if (addTypeModal) {
-                addTypeModal.addEventListener('hidden.bs.modal', function() {
-                    // ค้นหาฟอร์มด้านในแล้ว Reset ค่าทั้งหมด
-                    const form = this.querySelector('form');
-                    if (form) form.reset();
-                });
-            }
-        </script>
-
-        <!-- Modal -->
-        <div class="modal fade" id="AddProduct">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">เพิ่มรายการสินค้า</h1>
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="router/manageproduct.router.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="action" value="add">
-
-                            <label>ชื่อสินค้า <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control mb-2" name="product_name" required>
-
-                            <label>ราคา <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control mb-2" name="product_price" required>
-
-                            <label>จำนวน <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control mb-2" name="product_qty" required>
-
-                            <label>รายละเอียด</label>
-                            <textarea class="form-control mb-2" name="product_detail"></textarea>
-
-                            <label>รูปภาพ <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control mb-2" name="product_picture" id="imgAddInput" accept="image/*" required>
-
-                            <div class="text-center mb-2">
-                                <img id="previewImgAdd" src="" class="img-fluid rounded shadow-sm d-none" style="max-height: 200px;">
-                            </div>
-
-                            <label>ประเภท <span class="text-danger">*</span></label>
-                            <select class="form-select mb-2" name="product_type_id" required>
-                                <option value="" selected disabled>-- เลือกประเภท --</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-
-                            <hr class="my-3">
-
-                            <label>โปรโมชั่น</label>
-                            <select class="form-select mb-2" name="event_id">
-                                <option value="0">ไม่มี</option>
-                                <option value="1">event 1</option>
-                                <option value="2">event 2</option>
-                            </select>
-
-                            <button type="submit" class="btn btn-main w-100">บันทึกสินค้า</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filter + Search + Sort -->
         <form method="get" class="mb-4">
             <div class="row g-2">
-
-                <!-- เลือกหมวดหมู่ -->
                 <div class="col-md-3">
                     <select name="category" class="form-select">
                         <option value="">หมวดหมู่ทั้งหมด</option>
                         <option value="mobile">อุปกรณ์มือถือ</option>
-                        <option value="pc">อุปกรณ์คอมพิวเตอร์</option>
-                        <option value="gaming">Gaming Gear</option>
-                        <option value="network">Network</option>
-                        <option value="sale">ของลดราคา</option>
                     </select>
                 </div>
-
-                <!-- เลือกการเรียงลำดับ -->
                 <div class="col-md-3">
                     <select name="sort" class="form-select">
                         <option value="latest">เรียงตามสินค้าใหม่ล่าสุด</option>
-                        <option value="price_asc">ราคาต่ำ → สูง</option>
-                        <option value="price_desc">ราคาสูง → ต่ำ</option>
-                        <option value="popular">ขายดี</option>
-                        <option value="rating">คะแนนรีวิวสูง</option>
                     </select>
                 </div>
-
-                <!-- ช่องค้นหา -->
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="search" name="q" class="form-control" placeholder="ค้นหาสินค้า..."
-                            aria-label="ค้นหาสินค้า">
-                        <button class="btn btn-main" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
+                        <input type="search" name="q" class="form-control" placeholder="ค้นหาสินค้า..." aria-label="ค้นหาสินค้า">
+                        <button class="btn btn-main" type="submit"><i class="bi bi-search"></i></button>
                     </div>
                 </div>
-
             </div>
         </form>
 
-        <!-- สินค้า -->
         <div class="row">
 
-            <!-- สินค้า 1 -->
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 shadow-sm h-100 card-product">
-                    <img src="assets/images/banner.jpg" class="w-100 object-fit-cover rounded-top"
-                        style="height: 240px;" alt="ฟิล์มกระจก iPhone 14 Pro Max">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-1">ฟิล์มกระจก iPhone 14 Pro Max</h6>
-                        <p class="text-main fw-semibold mb-1">ราคา 150 บาท</p>
-                        <small class="text-muted d-block">ขายแล้ว 230 ชิ้น</small>
+            <?php if (isset($all_products) && !empty($all_products)): ?>
+                <?php foreach ($all_products as $row): ?>
 
-                        <!-- ดาวคะแนน -->
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="text-warning small">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-0 shadow-sm h-100 card-product">
+                            <div style="height: 240px; overflow: hidden;">
+                                <img src="assets/images/product/<?php echo $row['product_picture']; ?>"
+                                    class="w-100 h-100 object-fit-cover rounded-top"
+                                    alt="<?php echo htmlspecialchars($row['product_name']); ?>">
                             </div>
-                            <small class="text-muted">4.5 ★</small>
-                        </div>
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-1 text-truncate"><?php echo htmlspecialchars($row['product_name']); ?></h6>
+                                <p class="text-main fw-semibold mb-1">ราคา <?php echo number_format($row['product_price']); ?> บาท</p>
+                                <small class="text-muted d-block">คงเหลือ <?php echo $row['product_qty']; ?> ชิ้น</small>
 
-                        <!-- ลิงก์ไปหน้ารายละเอียด -->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="#" class="btn btn-warning w-100 mt-3" data-bs-toggle="modal" data-bs-target="#edit">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="#" class="btn btn-danger w-100 mt-3">
-                                    <i class="bi bi-trash3"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="edit">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5">แก้ไข</h1>
-                            <button class="btn-close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" method="post">
-                                <label for="">ชื่อสินค้า</label>
-                                <input type="text" class="form-control mb-2" name="" id="" required>
-                                <label for="">ราคา</label>
-                                <input type="number" class="form-control mb-2" name="" id="" required>
-                                <label for="">รายละเอียด</label>
-                                <textarea class="form-control mb-2" name="" id="" required></textarea>
-                                <label for="">รูปภาพ</label>
-                                <input type="file" class="form-control mb-2" name="product_picture" id="imgEditInput" accept="image/*">
-                                <div class="text-center mb-2">
-                                    <img id="previewImgEdit" src="" class="img-fluid rounded shadow-sm d-none" style="max-height: 200px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-warning w-100 mt-3"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editProduct_<?php echo $row['product_id']; ?>">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form action="router/manageproduct.router.php" method="POST" onsubmit="return confirmDeleteProduct(event, '<?php echo $row['product_id']; ?>');" id="delete-form-<?php echo $row['product_id']; ?>">
+                                            <input type="hidden" name="delete_product_id" value="<?php echo $row['product_id']; ?>">
+                                            <button type="submit" class="btn btn-danger w-100 mt-3">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <label for="">ประเภท</label>
-                                <select class="form-select mb-2" name="" id="" required>
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                </select>
-                                <hr class="my-3">
-                                <label for="">โปรโมชั่น</label>
-                                <select class="form-select mb-2" name="" id="" required>
-                                    <option value="">ไม่มี</option>
-                                    <option value="">event 1</option>
-                                    <option value="">event 2</option>
-                                </select>
-                                <button type="submit" class="btn btn-main w-100">Save changes</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="editProduct_<?php echo $row['product_id']; ?>" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-warning">
+                                    <h1 class="modal-title fs-5">แก้ไขสินค้า</h1>
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="router/manageproduct.router.php" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="update_product_id" value="<?php echo $row['product_id']; ?>">
+                                        <input type="hidden" name="btn_update_product" value="1">
+
+                                        <label>ชื่อสินค้า</label>
+                                        <input type="text" class="form-control mb-2" name="product_name"
+                                            value="<?php echo htmlspecialchars($row['product_name']); ?>" required>
+
+                                        <label>ราคา</label>
+                                        <input type="number" class="form-control mb-2" name="product_price"
+                                            value="<?php echo $row['product_price']; ?>" required>
+
+                                        <label>จำนวน</label>
+                                        <input type="number" class="form-control mb-2" name="product_qty"
+                                            value="<?php echo $row['product_qty']; ?>" required>
+
+                                        <label>รายละเอียด</label>
+                                        <textarea class="form-control mb-2" name="product_detail" rows="3"><?php echo htmlspecialchars($row['product_detail']); ?></textarea>
+
+                                        <label>รูปภาพเดิม</label>
+                                        <div class="mb-2 text-center">
+                                            <img src="assets/images/product/<?php echo $row['product_picture']; ?>"
+                                                class="img-fluid rounded" style="max-height: 150px;" >
+                                        </div>
+
+                                        <label>เปลี่ยนรูปภาพ (ถ้ามี)</label>
+                                        <input type="file" class="form-control mb-2" name="product_picture" accept="image/*">
+                                        <label>ประเภท</label>
+                                        <select class="form-select mb-2" name="product_type_id" required>
+                                            <option value="" disabled>เลือกประเภท</option>
+                                            <?php foreach ($product_type_item as $type): ?>
+                                                <option value="<?php echo $type['product_type_id']; ?>"
+                                                    <?php echo ($row['product_type_id'] == $type['product_type_id']) ? 'selected' : ''; ?>>
+                                                    <?php echo htmlspecialchars($type['product_type_name']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+
+                                        <hr class="my-3">
+
+                                        <label>โปรโมชั่น</label>
+                                        <select class="form-select mb-2" name="event_id">
+                                            <option value="">ไม่มี</option>
+                                            <?php foreach (getAllEvents() as $event): ?>
+                                                <option value="<?php echo $event['event_id']; ?>"
+                                                    <?php echo ($row['event_id'] == $event['event_id']) ? 'selected' : ''; ?>>
+                                                    <?php echo htmlspecialchars($event['event_name']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+
+                                        <button type="submit" class="btn btn-warning w-100">บันทึกการแก้ไข</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12 text-center text-white mt-5">
+                    <h3>ไม่พบรายการสินค้า</h3>
                 </div>
-            </div>
+            <?php endif; ?>
 
         </div>
     </div>
+
+
+    <div class="modal fade" id="AddProduct">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">เพิ่มรายการสินค้า</h1>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="router/manageproduct.router.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="add_product" value="add">
+
+                        <label>ชื่อสินค้า <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control mb-2" name="product_name">
+
+                        <label>ราคา <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control mb-2" name="product_price">
+
+                        <label>จำนวน <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control mb-2" name="product_qty">
+
+                        <label>รายละเอียด</label>
+                        <textarea class="form-control mb-2" name="product_detail"></textarea>
+
+                        <label>รูปภาพ <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control mb-2" name="product_picture" id="imgAddInput" accept="image/*">
+
+                        <div class="text-center mb-2">
+                            <img id="previewImgAdd" src="" class="img-fluid rounded shadow-sm d-none" style="max-height: 200px;">
+                        </div>
+
+                        <label>ประเภท <span class="text-danger">*</span></label>
+                        <select class="form-select mb-2" name="product_type_id">
+                            <option value="" selected disabled>-- เลือกประเภท --</option>
+                            <?php foreach ($product_type_item as $item): ?>
+                                <option value="<?php echo $item['product_type_id']; ?>"><?php echo htmlspecialchars($item['product_type_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <hr class="my-3">
+
+                        <label>โปรโมชั่น</label>
+                        <select class="form-select mb-2" name="event_id">
+                            <option value="">ไม่มี</option>
+                            <?php foreach (getAllEvents() as $event_item): ?>
+                                <option value="<?php echo $event_item['event_id']; ?>"><?php echo htmlspecialchars($event_item['event_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <button type="submit" class="btn btn-main w-100">บันทึกสินค้า</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -303,7 +293,6 @@ $product_type_item = getAllProductTypes();
             Swal.fire({
                 icon: 'success',
                 title: 'สำเร็จ!',
-                // ลบ single quote '...' ออก แล้วใช้ json_encode แทน
                 text: <?php echo json_encode($_SESSION['success']); ?>,
                 timer: 2000,
                 showConfirmButton: false
@@ -312,14 +301,11 @@ $product_type_item = getAllProductTypes();
         <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
 
-
-
     <?php if (isset($_SESSION['product_type_success'])): ?>
         <script>
             Swal.fire({
                 icon: 'success',
                 title: 'สำเร็จ!',
-                // ลบ single quote '...' ออก แล้วใช้ json_encode แทน
                 text: <?php echo json_encode($_SESSION['product_type_success']); ?>,
                 timer: 2000,
                 showConfirmButton: false
@@ -327,21 +313,6 @@ $product_type_item = getAllProductTypes();
         </script>
         <?php unset($_SESSION['product_type_success']); ?>
     <?php endif; ?>
-
-
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'เกิดข้อผิดพลาด!',
-                text: <?php echo json_encode($_SESSION['error']); ?>
-            });
-        </script>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
-
 
     <?php if (isset($_SESSION['product_type_input_error'])): ?>
         <script>
@@ -352,6 +323,17 @@ $product_type_item = getAllProductTypes();
             });
         </script>
         <?php unset($_SESSION['product_type_input_error']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด!',
+                text: <?php echo json_encode($_SESSION['error']); ?>
+            });
+        </script>
+        <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
 
     <script>
@@ -365,46 +347,59 @@ $product_type_item = getAllProductTypes();
                     if (previewImgAdd.src.startsWith('blob:')) {
                         URL.revokeObjectURL(previewImgAdd.src);
                     }
-
                     previewImgAdd.src = URL.createObjectURL(file);
                     previewImgAdd.classList.remove('d-none');
                 }
             };
         }
-
+        // ... (ส่วน Reset Form Add เหมือนเดิม) ...
         const addModal = document.getElementById('AddProduct');
         if (addModal) {
             addModal.addEventListener('hidden.bs.modal', function() {
-                if (previewImgAdd.src.startsWith('blob:')) {
-                    URL.revokeObjectURL(previewImgAdd.src);
+                // Reset form Logic
+                const form = this.querySelector('form');
+                if (form) form.reset();
+                if (previewImgAdd) {
+                    previewImgAdd.src = '';
+                    previewImgAdd.classList.add('d-none');
                 }
-                previewImgAdd.src = '';
-                previewImgAdd.classList.add('d-none');
-                this.querySelector('form').reset();
             });
         }
     </script>
 
     <script>
-        function checkBackNavigation() {
-            const navEntries = performance.getEntriesByType('navigation');
-            if (navEntries.length > 0) {
-                const navType = navEntries[0].type;
-                if (navType === 'back_forward') {
-                    window.location.reload();
-                    return true;
+        function confirmDeleteProduct(e, eventId) {
+            e.preventDefault(); // หยุดการทำงานปกติของปุ่ม
+
+            Swal.fire({
+                title: 'ยืนยันการลบ?',
+                text: "คุณต้องการลบสินค้านี้หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'ใช่, ลบเลย',
+                cancelButtonText: 'ยกเลิก',
+                background: '#2b2b2b',
+                color: '#ffffff',
+                iconColor: '#f8bb86'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // สั่งให้ฟอร์มที่มี ID นั้นๆ ทำการ Submit
+                    document.getElementById('delete-form-' + eventId).submit();
                 }
-            }
-            return false;
+            })
         }
+    </script>
 
-        window.addEventListener('pageshow', function(event) {
-            const isBack = event.persisted || checkBackNavigation();
-
-            if (isBack) {
-                window.location.reload();
-            }
-        });
+    <script>
+        const addTypeModal = document.getElementById('AddProductType');
+        if (addTypeModal) {
+            addTypeModal.addEventListener('hidden.bs.modal', function() {
+                const form = this.querySelector('form');
+                if (form) form.reset();
+            });
+        }
     </script>
 
     <?php include('include/footer.php') ?>

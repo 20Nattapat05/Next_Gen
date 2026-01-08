@@ -3,13 +3,13 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  header('Location: /Next_Gen/admin_product');
-  exit();
+    header('Location: /Next_Gen/admin_product');
+    exit();
 }
 
 require_once __DIR__ . '/../function/admin/product_type_function.php';
 
-if(isset($_POST['product_type_name'])) {
+if (isset($_POST['product_type_name'])) {
     $product_type_name = trim($_POST['product_type_name']);
 
     if ($product_type_name === '') {
