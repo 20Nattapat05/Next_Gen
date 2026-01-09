@@ -22,57 +22,14 @@
         </p>
 
         <div class="row g-4">
-            <!-- ฟอร์มติดต่อ -->
-            <div class="col-md-7">
-                <div class="card border-0 shadow-lg">
-                    <div class="card-body p-4">
-                        <h5 class="fw-bold mb-3">ส่งข้อความถึงเรา</h5>
-                        <form action="send-contact.php" method="post">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">ชื่อของคุณ</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="กรอกชื่อของคุณ" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">อีเมล</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="name@example.com" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">เบอร์โทรศัพท์</label>
-                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="0X-XXX-XXXX"
-                                    required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="subject" class="form-label">หัวข้อ</label>
-                                <input type="text" class="form-control" id="subject" name="subject"
-                                    placeholder="เช่น พบปัญหาในการจ่ายเงิน" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="message" class="form-label">รายละเอียด</label>
-                                <textarea class="form-control" id="message" name="message" rows="4"
-                                    placeholder="พิมพ์รายละเอียดสิ่งที่ต้องการติดต่อ..."></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-main w-100">
-                                <i class="bi bi-send-fill me-1"></i> ส่งข้อความ
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
 
             <!-- ข้อมูลติดต่อ + แผนที่ -->
             <div class="col-md-5">
-                <div class="card border-0 shadow-lg mb-3">
+                <div class="card border-0 shadow-lg mb-3 py-4">
                     <div class="card-body p-4">
                         <h5 class="fw-bold mb-3">ข้อมูลติดต่อร้าน</h5>
 
-                        <div class="mb-3 d-flex">
+                        <div class="mb-4 d-flex">
                             <div class="me-3 mt-1">
                                 <i class="bi bi-geo-alt-fill text-main fs-4"></i>
                             </div>
@@ -84,7 +41,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3 d-flex">
+                        <div class="mb-4 d-flex">
                             <div class="me-3 mt-1">
                                 <i class="bi bi-telephone-fill text-main fs-5"></i>
                             </div>
@@ -97,7 +54,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-2 d-flex">
+                        <div class="mb-4 d-flex">
                             <div class="me-3 mt-1">
                                 <i class="bi bi-clock-fill text-main fs-5"></i>
                             </div>
@@ -112,19 +69,22 @@
                     </div>
                 </div>
 
+
+            </div>
+
+            <div class="col-md-7">
                 <!-- แผนที่ -->
                 <div class="card border-0 shadow-lg">
                     <div class="card-body p-0">
                         <!-- ใส่ Google Maps Embed จริงทีหลัง -->
-                        <div style="height: 294px; border-radius: .5rem; overflow: hidden;">
+                        <div style="height: 400px; border-radius: .5rem; overflow: hidden;">
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3893.813307265919!2d102.09674967507006!3d12.594552587687215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310481be90117411%3A0x525d5f3daa94d821!2z4Lin4Li04LiX4Lii4Liy4Lil4Lix4Lii4LmA4LiX4LiE4LiZ4Li04LiE4LiI4Lix4LiZ4LiX4Lia4Li44Lij4Li1IOC4quC4luC4suC4muC4seC4meC4geC4suC4o-C4reC4suC4iuC4teC4p-C4qOC4tuC4geC4qeC4suC4oOC4suC4hOC4leC4sOC4p-C4seC4meC4reC4reC4gQ!5e0!3m2!1sth!2sth!4v1763124906307!5m2!1sth!2sth"
-                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                class="w-100" style="height: 400px; border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
