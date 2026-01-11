@@ -51,7 +51,7 @@ $data = GetContent();
                         <a href="coupon" class="h5 mb-0 fw-semibold text-decoration-none">
                             <i class="bi bi-ticket-perforated-fill text-primary me-1"
                                 style="transform: rotate(-30deg); display: inline-block;"></i>
-                            คูปองต่างๆ</a>
+                            ดูสถานะสินค้า</a>
                     </div>
                     <div class="col-md-4 border-start border-end">
                         <h4 class="mb-0 fw-bold text-main" id="realtime"></h4>
