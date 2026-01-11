@@ -1,3 +1,10 @@
+<?php
+
+    session_start();
+
+    require_once __DIR__ . '/function/admin/product_function.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

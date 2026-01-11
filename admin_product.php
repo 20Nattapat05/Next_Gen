@@ -7,10 +7,16 @@ require_once __DIR__ . '/function/admin/product_type_function.php';
 require_once __DIR__ . '/function/admin/event_function.php';
 require_once __DIR__ . '/function/admin/product_function.php'; // เพิ่มไฟล์นี้เพื่อดึงสินค้า
 
+$q = $_GET['q'] ?? null;
+$cat = $_GET['category'] ?? null;
+$sort = $_GET['sort'] ?? 'latest';
+
 // ดึงข้อมูล
 $product_type_item = getAllProductTypes();
-$all_products = GetAllProduct(); // ดึงสินค้าทั้งหมด
+$all_products = GetAllProduct($q, $cat, $sort);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,18 +105,30 @@ $all_products = GetAllProduct(); // ดึงสินค้าทั้งห�
                 <div class="col-md-3">
                     <select name="category" class="form-select">
                         <option value="">หมวดหมู่ทั้งหมด</option>
-                        <option value="mobile">อุปกรณ์มือถือ</option>
+                        <?php foreach ($product_type_item as $type): ?>
+                            <option value="<?php echo $type['product_type_id']; ?>"
+                                <?php echo ($cat == $type['product_type_id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($type['product_type_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <select name="sort" class="form-select">
-                        <option value="latest">เรียงตามสินค้าใหม่ล่าสุด</option>
+                        <option value="latest" <?php echo ($sort == 'latest') ? 'selected' : ''; ?>>เรียงตามสินค้าใหม่ล่าสุด</option>
+                        <option value="price_low" <?php echo ($sort == 'price_low') ? 'selected' : ''; ?>>ราคา: ต่ำ - สูง</option>
+                        <option value="price_high" <?php echo ($sort == 'price_high') ? 'selected' : ''; ?>>ราคา: สูง - ต่ำ</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="search" name="q" class="form-control" placeholder="ค้นหาสินค้า..." aria-label="ค้นหาสินค้า">
+                        <input type="search" name="q" class="form-control"
+                            placeholder="ค้นหาชื่อสินค้า, ประเภท หรือโปรโมชั่น..."
+                            value="<?php echo htmlspecialchars($q ?? ''); ?>">
                         <button class="btn btn-main" type="submit"><i class="bi bi-search"></i></button>
+                        <?php if ($q || $cat): ?>
+                            <a href="admin_product.php" class="btn btn-outline-light"><i class="bi bi-x-circle"></i> ล้างค่า</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -184,7 +202,7 @@ $all_products = GetAllProduct(); // ดึงสินค้าทั้งห�
                                         <label>รูปภาพเดิม</label>
                                         <div class="mb-2 text-center">
                                             <img src="assets/images/product/<?php echo $row['product_picture']; ?>"
-                                                class="img-fluid rounded" style="max-height: 150px;" >
+                                                class="img-fluid rounded" style="max-height: 150px;">
                                         </div>
 
                                         <label>เปลี่ยนรูปภาพ (ถ้ามี)</label>
