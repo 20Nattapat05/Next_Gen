@@ -1,6 +1,21 @@
 <?php
 
-    require_once 'include/check_auth_admin.php';
+// Check if user or admin is logged in
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isAdmin = isset($_SESSION['admin_id']);
+$isUser = isset($_SESSION['user_id']);
+
+// Redirect to login if not logged in
+if (!$isAdmin && !$isUser) {
+    header('Location: /Next_Gen/login');
+    exit();
+}
+
+// If admin, use admin navbar
+$navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +40,7 @@
 </head>
 
 <body class="bg-dark">
-    <?php include('include/navbar_admin.php') ?>
+    <?php include($navbar_file) ?>
     <div class="container">
         <div class="row mt-custom">
             <div class="col-md-8">
@@ -37,11 +52,18 @@
                                     class="w-100 rounded-circle object-fit-cover h-account">
                             </div>
                             <div class="col-md-9 my-auto">
-                                <h2 class="mb-0">FULLNAME ACCOUNT</h2>
-                                <h5>Admin <span class="mx-2">|</span> Username</h5>
-                                <hr>
-                                <h5>Emali: natota4801@gmail.com</h5>
-                                <h5>Phone: 098 981 2451</h5>
+                                <?php if ($isAdmin): ?>
+                                    <h2 class="mb-0"><?php echo htmlspecialchars($_SESSION['admin_username'] ?? 'Admin'); ?></h2>
+                                    <h5>ผู้ดูแลระบบ</h5>
+                                    <hr>
+                                    <h5>บัญชี: admin</h5>
+                                <?php else: ?>
+                                    <h2 class="mb-0"><?php echo htmlspecialchars($_SESSION['user_fullname'] ?? 'ผู้ใช้'); ?></h2>
+                                    <h5><?php echo htmlspecialchars($_SESSION['user_username'] ?? ''); ?> <span class="mx-2">|</span> ลูกค้า</h5>
+                                    <hr>
+                                    <h5>อีเมล: <?php echo htmlspecialchars($_SESSION['user_email'] ?? ''); ?></h5>
+                                    <h5>สถานะ: <?php echo htmlspecialchars($_SESSION['user_status'] ?? 'ปกติ'); ?></h5>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -50,7 +72,9 @@
             <div class="col-md-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <a href="#" class="btn btn-outline-success w-100 mb-1">จัดการที่อยู่</a>
+                        <?php if (!$isAdmin): ?>
+                            <a href="#" class="btn btn-outline-success w-100 mb-1">จัดการที่อยู่</a>
+                        <?php endif; ?>
                         <a href="#" class="btn btn-outline-primary w-100 my-1">แก้ไขบัญชี</a>
                         <a href="#" class="btn btn-outline-warning w-100 my-1">แก้ไขรหัสผ่าน</a>
                         <button type="button" onclick="confirmLogout()" class="btn btn-danger w-100 mt-1">ออกจากระบบ</button>

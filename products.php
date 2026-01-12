@@ -1,8 +1,25 @@
 <?php
 
-    session_start();
+require_once __DIR__ . '/function/shared/common_function.php';
 
-    require_once __DIR__ . '/function/admin/product_function.php';
+// Initialize session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Determine user type and check permissions
+$isAdmin = isset($_SESSION['admin_id']);
+$isUser = isset($_SESSION['user_id']);
+$isGuest = !$isAdmin && !$isUser;
+
+// Prevent admin from accessing user page
+if ($isAdmin) {
+    header('Location: /Next_Gen/admin_home');
+    exit();
+}
+
+// Get all products
+$all_products = GetAllProducts();
 
 ?>
 <!DOCTYPE html>
@@ -30,31 +47,8 @@
         <form method="get" class="mb-4">
             <div class="row g-2">
 
-                <!-- เลือกหมวดหมู่ -->
-                <div class="col-md-3">
-                    <select name="category" class="form-select">
-                        <option value="">หมวดหมู่ทั้งหมด</option>
-                        <option value="mobile">อุปกรณ์มือถือ</option>
-                        <option value="pc">อุปกรณ์คอมพิวเตอร์</option>
-                        <option value="gaming">Gaming Gear</option>
-                        <option value="network">Network</option>
-                        <option value="sale">ของลดราคา</option>
-                    </select>
-                </div>
-
-                <!-- เลือกการเรียงลำดับ -->
-                <div class="col-md-3">
-                    <select name="sort" class="form-select">
-                        <option value="latest">เรียงตามสินค้าใหม่ล่าสุด</option>
-                        <option value="price_asc">ราคาต่ำ → สูง</option>
-                        <option value="price_desc">ราคาสูง → ต่ำ</option>
-                        <option value="popular">ขายดี</option>
-                        <option value="rating">คะแนนรีวิวสูง</option>
-                    </select>
-                </div>
-
                 <!-- ช่องค้นหา -->
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="input-group">
                         <input type="search" name="q" class="form-control" placeholder="ค้นหาสินค้า..."
                             aria-label="ค้นหาสินค้า">
@@ -69,133 +63,80 @@
 
         <!-- สินค้า -->
         <div class="row">
+            <?php if (!empty($all_products)): ?>
+                <?php foreach ($all_products as $product): ?>
+                    <?php
+                    $original_price = $product['product_price'];
+                    $discount = $product['event_discount'] ?? 0;
+                    $final_price = $original_price - $discount;
+                    $has_discount = ($discount > 0);
+                    $stock = $product['product_qty'];
+                    ?>
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-0 shadow-sm h-100 card-product position-relative overflow-hidden">
 
-            <!-- สินค้า 1 -->
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 shadow-sm h-100 card-product">
-                    <img src="assets/images/banner.jpg" class="w-100 object-fit-cover rounded-top"
-                        style="height: 240px;" alt="ฟิล์มกระจก iPhone 14 Pro Max">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-1">ฟิล์มกระจก iPhone 14 Pro Max</h6>
-                        <p class="text-main fw-semibold mb-1">ราคา 150 บาท</p>
-                        <small class="text-muted d-block">ขายแล้ว 230 ชิ้น</small>
+                            <?php if (!empty($product['event_name'])): ?>
+                                <!-- Badge เข้าร่วมแคมเปญ -->
+                                <span class="position-absolute top-0 end-0 m-2 badge bg-danger shadow-sm" style="z-index: 1;">
+                                    <i class="bi bi-tag-fill me-1"></i> <?php echo $product['event_name']; ?>
+                                </span>
+                            <?php endif; ?>
 
-                        <!-- ดาวคะแนน -->
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="text-warning small">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                            <img src="assets/images/product/<?php echo $product['product_picture'] ?>"
+                                class="w-100 object-fit-cover"
+                                style="height: 240px;"
+                                alt="<?php echo $product['product_name']; ?>">
+                            
+                            <div class="card-body d-flex flex-column">
+                                <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" class="text-decoration-none text-dark">
+                                    <h6 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h6>
+                                </a>
+                                
+                                <!-- ราคา -->
+                                <div class="mb-2">
+                                    <?php if ($has_discount): ?>
+                                        <p class="text-main fw-semibold mb-0">฿<?php echo number_format($final_price, 2); ?></p>
+                                        <small class="text-muted text-decoration-line-through">฿<?php echo number_format($original_price, 2); ?></small>
+                                    <?php else: ?>
+                                        <p class="text-main fw-semibold mb-0">฿<?php echo number_format($original_price, 2); ?></p>
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- สถานะสินค้า -->
+                                <small class="text-muted d-block mb-2">
+                                    <i class="bi bi-box-seam me-1"></i>
+                                    <span class="<?php echo $stock <= 5 ? 'text-danger fw-bold' : ''; ?>">
+                                        คงเหลือ <?php echo $stock; ?> ชิ้น
+                                    </span>
+                                </small>
+
+                                <div class="mt-auto d-flex gap-2">
+                                    <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" class="btn btn-outline-main w-50 btn-sm">
+                                        ดูรายละเอียด
+                                    </a>
+                                    
+                                    <?php if ($isUser): ?>
+                                        <a href="cart_action.php?action=add&id=<?php echo $product['product_id']; ?>"
+                                            class="btn btn-main w-50 btn-sm">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <button onclick="location.href='login.php';" class="btn btn-outline-secondary w-50 btn-sm">
+                                            <i class="bi bi-lock-fill"></i>
+                                        </button>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <small class="text-muted">4.5 ★</small>
                         </div>
-
-                        <!-- ลิงก์ไปหน้ารายละเอียด -->
-                        <a href="product-detail.php?id=1" class="btn btn-main w-100 mt-3">
-                            ดูรายละเอียด
-                        </a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        ไม่มีสินค้าในขณะนี้
                     </div>
                 </div>
-            </div>
-
-            <!-- สินค้า 2 -->
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 shadow-sm h-100 card-product position-relative">
-
-                    <!-- Badge เข้าร่วมแคมเปญ -->
-                    <span class="position-absolute top-0 end-0 m-2 badge bg-danger shadow-sm">
-                        เข้าร่วมแคมเปญ
-                    </span>
-
-                    <img src="assets/images/banner.jpg" class="w-100 object-fit-cover rounded-top"
-                        style="height: 240px;">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-1">ฟิล์มกระจก iPhone 14 Pro Max</h6>
-                        <p class="text-main fw-semibold mb-1">ราคา 150 บาท</p>
-                        <small class="text-muted d-block">ขายแล้ว 230 ชิ้น</small>
-
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="text-warning small">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </div>
-                            <small class="text-muted">4.5 ★</small>
-                        </div>
-
-                        <a href="product-detail.php?id=1" class="btn btn-main w-100 mt-3">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- สินค้า 3 -->
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 shadow-sm h-100 card-product">
-                    <img src="assets/images/banner.jpg" class="w-100 object-fit-cover rounded-top"
-                        style="height: 240px;" alt="เมาส์เกมมิ่ง RGB 7200DPI">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-1">เมาส์เกมมิ่ง RGB 7200DPI</h6>
-                        <p class="text-main fw-semibold mb-1">ราคา 450 บาท</p>
-                        <small class="text-muted d-block">ขายแล้ว 120 ชิ้น</small>
-
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="text-warning small">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star"></i>
-                            </div>
-                            <small class="text-muted">4.0 ★</small>
-                        </div>
-
-                        <a href="product-detail.php?id=3" class="btn btn-main w-100 mt-3">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- สินค้า 4 -->
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 shadow-sm h-100 card-product position-relative">
-
-                    <!-- Badge เข้าร่วมแคมเปญ -->
-                    <span class="position-absolute top-0 end-0 m-2 badge bg-danger shadow-sm">
-                        เข้าร่วมแคมเปญ
-                    </span>
-
-                    <img src="assets/images/banner.jpg" class="w-100 object-fit-cover rounded-top"
-                        style="height: 240px;">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-1">ฟิล์มกระจก iPhone 14 Pro Max</h6>
-                        <p class="text-main fw-semibold mb-1">ราคา 150 บาท</p>
-                        <small class="text-muted d-block">ขายแล้ว 230 ชิ้น</small>
-
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="text-warning small">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </div>
-                            <small class="text-muted">4.5 ★</small>
-                        </div>
-
-                        <a href="product-detail.php?id=1" class="btn btn-main w-100 mt-3">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            <?php endif; ?>
         </div>
     </div>
 

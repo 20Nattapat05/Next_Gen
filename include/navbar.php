@@ -1,3 +1,21 @@
+<?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Determine user type
+$isAdmin = isset($_SESSION['admin_id']);
+$isUser = isset($_SESSION['user_id']);
+$isGuest = !$isAdmin && !$isUser;
+
+// Security: Prevent admin from using user navbar
+if ($isAdmin) {
+    header('Location: /Next_Gen/admin_home');
+    exit();
+}
+?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow py-3 fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bold text-banner" href="#">NEXT GEN IT</a>
@@ -18,12 +36,25 @@
                 <li class="nav-item">
                     <a class="nav-link mx-1" href="contact">ติดต่อเรา</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-1" href="#" data-bs-toggle="modal" data-bs-target="#cart">ตะกร้า</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-main ms-1" href="login">เข้าสู่ระบบ</a>
-                </li>
+                
+                <?php if ($isUser): ?>
+                    <!-- Show cart only when user is logged in -->
+                    <li class="nav-item">
+                        <a class="nav-link mx-1" href="#" data-bs-toggle="modal" data-bs-target="#cart">
+                            <i class="bi bi-cart-fill"></i> ตะกร้า
+                        </a>
+                    </li>
+                    
+                    <!-- Account button for logged in users -->
+                    <li class="nav-item">
+                        <a class="btn btn-main ms-1" href="account"><i class="bi bi-person"></i> บัญชีของฉัน</a>
+                    </li>
+                <?php elseif ($isGuest): ?>
+                    <!-- Login button for guests -->
+                    <li class="nav-item">
+                        <a class="btn btn-main ms-1" href="login"><i class="bi bi-box-arrow-in-right"></i> เข้าสู่ระบบ</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

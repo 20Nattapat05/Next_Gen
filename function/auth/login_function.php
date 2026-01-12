@@ -25,17 +25,14 @@ function login($data)
   $admin = $stmt->fetch();
 
   if ($admin && password_verify($password, $admin['admin_password'])) {
-    session_regenerate_id(true);
-    // set session
-    $_SESSION['admin_id'] = $admin['admin_id'];
-
-    return true;
+    // return admin data
+    return $admin;
   }
 
 
   // user role check
   $stmt = $pdo->prepare("
-    SELECT user_id, user_username, user_password 
+    SELECT user_id, user_username, user_password, user_fullname, user_email, user_status
     FROM user_tb 
     WHERE user_email = :username 
     OR user_username = :username 
@@ -45,11 +42,8 @@ function login($data)
   $user = $stmt->fetch();
 
   if ($user && password_verify($password, $user['user_password'])) {
-    session_regenerate_id(true);
-    // set session
-    $_SESSION['user_id'] = $user['user_id'];
-
-    return true;
+    // return user data
+    return $user;
   }
 
   return false;

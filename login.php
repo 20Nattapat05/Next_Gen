@@ -97,7 +97,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <script>
             Swal.fire({
                 icon: 'success',
-                title: 'ออกจากระบบสำเร็จ',
+                title: <?php echo json_encode($_SESSION['logout_success']); ?>,
                 timer: 2000,
                 showConfirmButton: false
             });

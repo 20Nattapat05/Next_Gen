@@ -1,27 +1,10 @@
 <?php
 
 require_once __DIR__ . '/../../config/dbconfig.php';
-
-function GetContent() {
-    try {
-        $pdo = db(); // เรียกใช้การเชื่อมต่อฐานข้อมูล
-        $sql = "SELECT * FROM content_tb";
-        $stmt = $pdo->query($sql);
-        
-        $result = []; // สร้าง Array ว่างเพื่อรอเก็บข้อมูลแบบจัดกลุ่ม
-        
-        while ($row = $stmt->fetch()) {
-            $result[$row['content_key']] = $row;
-        }
-        
-        return $result; 
-    } catch (PDOException $e) {
-        return [];
-    }
-}
+require_once __DIR__ . '/../shared/common_function.php';
 
 /**
- * ฟังก์ชันอัปเดตเนื้อหา (สำหรับใช้ใน Router)
+ * ฟังก์ชันอัปเดตเนื้อหา (สำหรับใช้ใน Router - Admin เท่านั้น)
  */
 function UpdateContent($key, $title, $description, $image_name = null) {
     try {
@@ -55,3 +38,6 @@ function UpdateContent($key, $title, $description, $image_name = null) {
         return false;
     }
 }
+
+
+?>

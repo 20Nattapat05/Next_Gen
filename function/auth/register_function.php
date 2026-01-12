@@ -25,8 +25,8 @@ function register($fullname, $email, $phone, $username, $password)
 
 
     $stmt = $pdo->prepare("
-      INSERT INTO user_tb (user_id, user_username, user_password, user_fullname, user_email, user_phone, user_status, user_address_id, created_at, updated_at)
-      VALUES (:id, :username, :password, :fullname, :email, :phone, 'active', :user_address_id, NOW(), NOW())
+      INSERT INTO user_tb (user_id, user_username, user_password, user_fullname, user_email, user_phone, user_status, created_at, updated_at)
+      VALUES (:id, :username, :password, :fullname, :email, :phone, 'active', NOW(), NOW())
     ");
 
     $result = $stmt->execute([
@@ -36,7 +36,6 @@ function register($fullname, $email, $phone, $username, $password)
       'fullname' => $fullname,
       'email' => $email,
       'phone' => $phone,
-      'user_address_id' => null,
     ]);
 
     return $result;
