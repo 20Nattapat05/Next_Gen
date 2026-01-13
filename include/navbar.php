@@ -36,24 +36,24 @@ if ($isAdmin) {
                 <li class="nav-item">
                     <a class="nav-link mx-1" href="contact">ติดต่อเรา</a>
                 </li>
-                
+
                 <?php if ($isUser): ?>
-                    <!-- Show cart only when user is logged in -->
-                    <li class="nav-item">
-                        <a class="nav-link mx-1" href="#" data-bs-toggle="modal" data-bs-target="#cart">
-                            <i class="bi bi-cart-fill"></i> ตะกร้า
-                        </a>
-                    </li>
-                    
-                    <!-- Account button for logged in users -->
-                    <li class="nav-item">
-                        <a class="btn btn-main ms-1" href="account"><i class="bi bi-person"></i> บัญชีของฉัน</a>
-                    </li>
+                <!-- Show cart only when user is logged in -->
+                <li class="nav-item">
+                    <a class="nav-link mx-1" href="#" data-bs-toggle="modal" data-bs-target="#cart">
+                        <i class="bi bi-cart-fill"></i> ตะกร้า
+                    </a>
+                </li>
+
+                <!-- Account button for logged in users -->
+                <li class="nav-item">
+                    <a class="btn btn-main ms-1" href="account"><i class="bi bi-person"></i> บัญชีของฉัน</a>
+                </li>
                 <?php elseif ($isGuest): ?>
-                    <!-- Login button for guests -->
-                    <li class="nav-item">
-                        <a class="btn btn-main ms-1" href="login"><i class="bi bi-box-arrow-in-right"></i> เข้าสู่ระบบ</a>
-                    </li>
+                <!-- Login button for guests -->
+                <li class="nav-item">
+                    <a class="btn btn-main ms-1" href="login"><i class="bi bi-box-arrow-in-right"></i> เข้าสู่ระบบ</a>
+                </li>
                 <?php endif; ?>
             </ul>
         </div>
@@ -104,27 +104,6 @@ if ($isAdmin) {
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <form action="" method="post">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <input type="text" name="" id="" class="form-control">
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-main w-100">ใช้คูปอง</button>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- if -->
-                        <div class="text-end mt-4">
-                            <h5 class="text-danger">ใช้คูปอง "สวัสดีปีใหม่"</h5>
-                            <h5 class="text-danger">- 30 บาท</h5>
-                        </div>
-                        <!-- end if -->
-                    </div>
-                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <h5 class="mb-0">รวมทั้งหมด: <strong>2,000</strong> บาท</h5>

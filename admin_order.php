@@ -31,8 +31,8 @@ require_once 'include/check_auth_admin.php';
                                         <h6 class="mb-0">500 บาท</h6>
                                     </div>
                                     <div class="col-md-2">
-                                        <a href="#" class="btn btn-dark w-100 btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#order">เพิ่มเติม</a>
+                                        <a href="#" class="btn btn-success w-100 btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#order">จัดสินค้า</a>
                                     </div>
                                 </div>
                             </div>

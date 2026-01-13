@@ -88,9 +88,7 @@ $all_products = GetAllProducts();
                                 alt="<?php echo $product['product_name']; ?>">
                             
                             <div class="card-body d-flex flex-column">
-                                <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" class="text-decoration-none text-dark">
-                                    <h6 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h6>
-                                </a>
+                                <h6 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h6>
                                 
                                 <!-- ราคา -->
                                 <div class="mb-2">
@@ -110,15 +108,11 @@ $all_products = GetAllProducts();
                                     </span>
                                 </small>
 
-                                <div class="mt-auto d-flex gap-2">
-                                    <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" class="btn btn-outline-main w-50 btn-sm">
-                                        ดูรายละเอียด
-                                    </a>
-                                    
+                                <div class="mt-auto">
                                     <?php if ($isUser): ?>
                                         <a href="cart_action.php?action=add&id=<?php echo $product['product_id']; ?>"
-                                            class="btn btn-main w-50 btn-sm">
-                                            <i class="bi bi-cart-plus"></i>
+                                            class="btn btn-main w-50 float-end btn-sm">
+                                            เพิ่มลงตะกร้า <i class="bi bi-cart-plus"></i>
                                         </a>
                                     <?php else: ?>
                                         <button onclick="location.href='login.php';" class="btn btn-outline-secondary w-50 btn-sm">

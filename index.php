@@ -67,7 +67,7 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
             <div class="card-body py-4">
                 <div class="row text-center align-items-center">
                     <div class="col-md-4 my-auto">
-                        <a href="coupon" class="h5 mb-0 fw-semibold text-decoration-none">
+                        <a href="order_status" class="h5 mb-0 fw-semibold text-decoration-none">
                             <i class="bi bi-ticket-perforated-fill text-primary me-1"
                                 style="transform: rotate(-30deg); display: inline-block;"></i>
                             ดูสถานะสินค้า</a>
@@ -315,9 +315,7 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
 
 
                             <div class="card-body d-flex flex-column">
-                                <a href="product_detail.php?id=<?php echo $product['product_id']; ?>" class="text-decoration-none text-dark">
-                                    <h5 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h5>
-                                </a>
+                                <h5 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h5>
 
                                 <p class="text-muted small mb-3 text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 40px;">
                                     <?php echo $product['product_detail'] ?: 'ไม่มีรายละเอียดสินค้าในขณะนี้'; ?>
