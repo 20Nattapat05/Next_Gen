@@ -53,11 +53,11 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
                             </div>
                             <div class="col-md-9 my-auto">
                                 <?php if ($isAdmin): ?>
-                                <h2 class="mb-0"><?php echo htmlspecialchars($_SESSION['admin_username'] ?? 'Admin'); ?>
+                                <h2 class="mb-0"><?php echo htmlspecialchars($_SESSION['admin_fname'] . ' ' . $_SESSION['admin_sname'] ?? 'Admin'); ?>
                                 </h2>
-                                <h5>ผู้ดูแลระบบ</h5>
+                                <h5><?php echo htmlspecialchars($_SESSION['admin_username'] ?? 'admin'); ?> <span class="mx-2">|</span> ผู้ดูแลระบบ</h5>
                                 <hr>
-                                <h5>บัญชี: admin</h5>
+                                <h5>อีเมล: <?php echo htmlspecialchars($_SESSION['admin_email'] ?? ''); ?></h5>
                                 <?php else: ?>
                                 <h2 class="mb-0"><?php echo htmlspecialchars($_SESSION['user_fullname'] ?? 'ผู้ใช้'); ?>
                                 </h2>
@@ -93,6 +93,7 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
             </div>
         </div>
 
+        <!-- แก้ไขข้อมูล Modal -->
         <div class="modal fade" id="editProfileModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content bg-dark text-light">
@@ -100,46 +101,50 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
                         <h5 class="modal-title">แก้ไขข้อมูลบัญชี</h5>
                         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="router/update_profile.router.php" method="POST">
+                    <form id="editProfileForm">
+                        <input type="hidden" name="action" value="update_info">
                         <div class="modal-body">
-
-                            <?php if(!$isAdmin): ?>
-                            <div class="mb-2">
-                                <label>ชื่อ-นามสกุล</label>
-                                <input type="text" name="fullname" class="form-control"
-                                    value="<?= $_SESSION['user_fullname'] ?>" required>
-                            </div>
-                            <div class="mb-2">
-                                <label>อีเมล</label>
-                                <input type="email" name="email" class="form-control"
-                                    value="<?= $_SESSION['user_email'] ?>" required>
-                            </div>
-                            <div class="mb-2">
-                                <label>เบอร์โทร</label>
-                                <input type="text" name="phone" class="form-control"
-                                    value="<?= $_SESSION['user_phone'] ?>" required>
-                            </div>
+                            <?php if($isUser): ?>
+                                <div class="mb-3">
+                                    <label class="form-label">ชื่อ-นามสกุล</label>
+                                    <input type="text" name="fullname" class="form-control"
+                                        placeholder="กรอกชื่อ-นามสกุลใหม่" value="<?php echo htmlspecialchars($_SESSION['user_fullname'] ?? ''); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ชื่อผู้ใช้</label>
+                                    <input type="text" name="username" class="form-control"
+                                        placeholder="กรอกชื่อผู้ใช้ใหม่" value="<?php echo htmlspecialchars($_SESSION['user_username'] ?? ''); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">อีเมล</label>
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="กรอกอีเมลใหม่" value="<?php echo htmlspecialchars($_SESSION['user_email'] ?? ''); ?>" required>
+                                </div>
                             <?php else: ?>
-                            <div class="mb-2">
-                                <label>ชื่อ</label>
-                                <input type="text" name="fname" class="form-control"
-                                    value="<?= $_SESSION['admin_fname'] ?>">
-                            </div>
-                            <div class="mb-2">
-                                <label>นามสกุล</label>
-                                <input type="text" name="sname" class="form-control"
-                                    value="<?= $_SESSION['admin_sname'] ?>">
-                            </div>
-                            <div class="mb-2">
-                                <label>อีเมล</label>
-                                <input type="email" name="email" class="form-control"
-                                    value="<?= $_SESSION['admin_email'] ?>">
-                            </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ชื่อผู้ใช้</label>
+                                    <input type="text" name="username" class="form-control"
+                                        placeholder="กรอกชื่อผู้ใช้ใหม่" value="<?php echo htmlspecialchars($_SESSION['admin_username'] ?? ''); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">อีเมล</label>
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="กรอกอีเมลใหม่" value="<?php echo htmlspecialchars($_SESSION['admin_email'] ?? ''); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ชื่อจริง</label>
+                                    <input type="text" name="fname" class="form-control"
+                                        placeholder="กรอกชื่อจริงใหม่" value="<?php echo htmlspecialchars($_SESSION['admin_fname'] ?? ''); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">นามสกุล</label>
+                                    <input type="text" name="sname" class="form-control"
+                                        placeholder="กรอกนามสกุลใหม่" value="<?php echo htmlspecialchars($_SESSION['admin_sname'] ?? ''); ?>" required>
+                                </div>
                             <?php endif; ?>
-
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                             <button type="submit" class="btn btn-success">บันทึก</button>
                         </div>
                     </form>
@@ -147,7 +152,7 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
             </div>
         </div>
 
-
+        <!-- เปลี่ยนรหัสผ่าน Modal -->
         <div class="modal fade" id="changePasswordModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content bg-dark text-light">
@@ -155,47 +160,27 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
                         <h5 class="modal-title">เปลี่ยนรหัสผ่าน</h5>
                         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
-
-                    <form action="router/change_password.router.php" method="POST">
+                    <form id="changePasswordForm">
+                        <input type="hidden" name="action" value="update_password">
                         <div class="modal-body">
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <label>รหัสผ่านเดิม</label>
                                 <input type="password" name="old_password" class="form-control" required>
                             </div>
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <label>รหัสผ่านใหม่</label>
                                 <input type="password" name="new_password" class="form-control" required>
                             </div>
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <label>ยืนยันรหัสผ่านใหม่</label>
                                 <input type="password" name="confirm_password" class="form-control" required>
                             </div>
                         </div>
-
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                            <button class="btn btn-warning">เปลี่ยนรหัสผ่าน</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                            <button type="submit" class="btn btn-warning">เปลี่ยนรหัสผ่าน</button>
                         </div>
                     </form>
-
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card my-3">
-                    <div class="card-body">
-                        <h5>ที่อยู่ 1</h5>
-                        <hr>
-                        <h6>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, neque!</h6>
-                        <h6 class="fw-bold mt-3">รายละเอียดเพิ่มเติม</h6>
-                        <h6>Lorem ipsum dolor</h6>
-                        <hr>
-                        <a href="#" class="btn btn-danger btn-sm w-100">ลบ</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -225,6 +210,113 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
             }
         })
     }
+
+    // Handle edit profile form
+    document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch('router/account.router.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network error: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ!',
+                    text: data.message,
+                    confirmButtonColor: '#3085d6'
+                }).then(() => {
+                    location.reload();
+                });
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById('editProfileModal')).hide();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: data.message,
+                    confirmButtonColor: '#d33'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถสื่อสารกับเซิร์ฟเวอร์: ' + error.message,
+                confirmButtonColor: '#d33'
+            });
+        });
+    });
+
+    // Handle change password form
+    document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const newPassword = this.querySelector('[name="new_password"]').value;
+        const confirmPassword = this.querySelector('[name="confirm_password"]').value;
+        
+        if (newPassword !== confirmPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'ผิดพลาด',
+                text: 'รหัสผ่านใหม่ไม่ตรงกัน',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+        
+        const formData = new FormData(this);
+        
+        fetch('router/account.router.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network error: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ!',
+                    text: data.message,
+                    confirmButtonColor: '#3085d6'
+                }).then(() => {
+                    location.reload();
+                });
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: data.message,
+                    confirmButtonColor: '#d33'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถสื่อสารกับเซิร์ฟเวอร์: ' + error.message,
+                confirmButtonColor: '#d33'
+            });
+        });
+    });
     </script>
 
     <script>

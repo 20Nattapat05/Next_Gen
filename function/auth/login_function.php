@@ -15,7 +15,7 @@ function login($data)
 
   // admin role check
   $stmt = $pdo->prepare("
-        SELECT admin_id, admin_username, admin_password
+        SELECT admin_id, admin_username, admin_password, admin_email, admin_fname, admin_sname
         FROM admin_tb
         WHERE admin_email = :username
         OR admin_username = :username

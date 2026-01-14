@@ -317,7 +317,7 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
                             <div class="card-body d-flex flex-column">
                                 <h5 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h5>
 
-                                <p class="text-muted small mb-3 text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 40px;">
+                                <p class="text-muted small mb-3 text-truncate-2">
                                     <?php echo $product['product_detail'] ?: 'ไม่มีรายละเอียดสินค้าในขณะนี้'; ?>
                                 </p>
 

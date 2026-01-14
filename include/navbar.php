@@ -38,10 +38,15 @@ if ($isAdmin) {
                 </li>
 
                 <?php if ($isUser): ?>
-                <!-- Show cart only when user is logged in -->
+                <!-- Show cart and order history -->
                 <li class="nav-item">
-                    <a class="nav-link mx-1" href="#" data-bs-toggle="modal" data-bs-target="#cart">
+                    <a class="nav-link mx-1" href="cart.php">
                         <i class="bi bi-cart-fill"></i> ตะกร้า
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-1" href="order_history.php">
+                        <i class="bi bi-receipt"></i> ประวัติการสั่ง
                     </a>
                 </li>
 
