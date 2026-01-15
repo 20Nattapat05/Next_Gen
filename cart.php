@@ -49,7 +49,7 @@ $cart_total = CalculateCartTotal($user_id);
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-md-2">
-                                        <img src="assets/images/product/<?php echo htmlspecialchars($item['product_picture']); ?>"
+                                        <img src="assets/images/product/<?php echo htmlspecialchars($item['picture']); ?>"
                                             alt="<?php echo htmlspecialchars($item['product_name']); ?>"
                                             class="img-fluid rounded" style="max-width: 120px; height: 120px; object-fit: cover; border: 2px solid #0099cc;">
                                     </div>
