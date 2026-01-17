@@ -18,10 +18,10 @@ $user_id = $_SESSION['user_id'];
 $cart_total = CalculateCartTotal($user_id);
 
 // If cart is empty, redirect
-if (empty($cart_total['items'])) {
-    header('Location: /Next_Gen/cart.php');
-    exit();
-}
+// if (empty($cart_total['items'])) {
+//     header('Location: /Next_Gen/cart.php');
+//     exit();
+// }
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +40,7 @@ if (empty($cart_total['items'])) {
 
     <div class="container mt-4 mb-4">
         <!-- Header -->
-        <div class="mb-4">
+        <div class="mb-4 mt-custom">
             <h3 class="text-main mb-0">| ชำระเงิน</h3>
             <small class="text-muted">โปรดตรวจสอบรายละเอียดและเลือกวิธีการชำระเงิน</small>
         </div>
@@ -51,25 +51,28 @@ if (empty($cart_total['items'])) {
                 <div class="mb-4">
                     <h5 class="text-success mb-3">📦 รายการสินค้า</h5>
                     <?php foreach ($cart_total['items'] as $item): ?>
-                        <div class="card bg-secondary mb-3" style="border: none;">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <p class="text-white fw-bold mb-1"><?php echo htmlspecialchars($item['product_name']); ?></p>
-                                        <small class="text-muted">
-                                            จำนวน: <?php echo $item['quantity']; ?> ชิ้น × 
-                                            ฿<?php echo number_format($item['price_per_unit'], 2); ?>
-                                        </small>
-                                    </div>
-                                    <div class="text-end">
-                                        <p class="text-success fw-bold mb-0">฿<?php echo number_format($item['item_total'], 2); ?></p>
-                                        <?php if ($item['item_discount'] > 0): ?>
-                                            <small class="text-success">-฿<?php echo number_format($item['item_discount'], 2); ?></small>
-                                        <?php endif; ?>
-                                    </div>
+                    <div class="card bg-secondary mb-3" style="border: none;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="text-white fw-bold mb-1">
+                                        <?php echo htmlspecialchars($item['product_name']); ?></p>
+                                    <small class="text-muted">
+                                        จำนวน: <?php echo $item['quantity']; ?> ชิ้น ×
+                                        ฿<?php echo number_format($item['price_per_unit'], 2); ?>
+                                    </small>
+                                </div>
+                                <div class="text-end">
+                                    <p class="text-success fw-bold mb-0">
+                                        ฿<?php echo number_format($item['item_total'], 2); ?></p>
+                                    <?php if ($item['item_discount'] > 0): ?>
+                                    <small
+                                        class="text-success">-฿<?php echo number_format($item['item_discount'], 2); ?></small>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     <?php endforeach; ?>
                 </div>
 
@@ -77,70 +80,63 @@ if (empty($cart_total['items'])) {
                 <div class="mb-4">
                     <h5 class="text-success mb-3">💳 วิธีการชำระเงิน</h5>
 
-                    <div class="alert alert-warning" role="alert">
-                        <i class="bi bi-exclamation-circle me-2"></i>
-                        <small>ขณะนี้รองรับ: โอนเงินผ่านธนาคารเท่านั้น</small>
-                    </div>
-
-                    <form id="paymentForm">
-                        <!-- Bank Transfer -->
-                        <label class="card bg-dark border-info mb-3" style="cursor: pointer;">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <input type="radio" name="payment_method" value="bank_transfer" checked class="form-check-input">
-                                    <div class="ms-3">
-                                        <h6 class="text-success mb-0"><i class="bi bi-bank me-2"></i>โอนเงินผ่านธนาคาร</h6>
-                                        <small class="text-muted">กรุณาโอนเงินไปยังบัญชีธนาคารของเรา</small>
-                                    </div>
+                    <label class="card bg-dark border-info payment-card selected" style="cursor:pointer;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <input type="radio" checked class="form-check-input">
+                                <div class="ms-3">
+                                    <h6 class="text-success mb-0">
+                                        <i class="bi bi-qr-code me-2"></i>สแกนจ่าย (PromptPay)
+                                    </h6>
+                                    <small class="text-muted">
+                                        รองรับ Mobile Banking ทุกธนาคาร
+                                    </small>
                                 </div>
                             </div>
-                        </label>
-
-                        <!-- QR Code -->
-                        <label class="card bg-dark border-info mb-3" style="cursor: pointer; opacity: 0.5; pointer-events: none;">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <input type="radio" name="payment_method" value="qr_code" disabled>
-                                    <div class="ms-3">
-                                        <h6 class="text-success mb-0"><i class="bi bi-qr-code me-2"></i>สแกน QR Code</h6>
-                                        <small class="text-muted">(เร็วๆ นี้)</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </label>
-
-                        <!-- Credit Card -->
-                        <label class="card bg-dark border-info mb-3" style="cursor: pointer; opacity: 0.5; pointer-events: none;">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <input type="radio" name="payment_method" value="credit_card" disabled>
-                                    <div class="ms-3">
-                                        <h6 class="text-success mb-0"><i class="bi bi-credit-card me-2"></i>บัตรเครดิต/เดบิต</h6>
-                                        <small class="text-muted">(เร็วๆ นี้)</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </label>
-                    </form>
-
-                    <div id="bankTransferInfo" class="card bg-dark border-info p-3">
-                        <h6 class="text-success mb-2">📋 รายละเอียดการโอนเงิน</h6>
-                        <p class="mb-1"><strong>ธนาคาร:</strong> <span class="text-muted">ธนาคารกรุงไทย</span></p>
-                        <p class="mb-1"><strong>ชื่อบัญชี:</strong> <span class="text-muted">Next Gen IT Co., Ltd</span></p>
-                        <p class="mb-1"><strong>เลขบัญชี:</strong> <span class="text-success">123-456-7890</span></p>
-                        <p class="mb-0"><strong>อ้างอิง:</strong> <span class="text-muted">Order #[ระบบจะสร้างหลังยืนยัน]</span></p>
-                    </div>
-                </div>
-
-                <!-- Terms & Conditions -->
-                <div class="mb-4">
-                    <label class="d-flex align-items-center form-check" style="cursor: pointer;">
-                        <input type="checkbox" id="agreeTerms" class="form-check-input">
-                        <span class="ms-2 text-muted">
-                            ฉันยอมรับ <a href="#" style="color: #0099cc; text-decoration: none;">เงื่อนไขและข้อตกลง</a>
-                        </span>
+                        </div>
                     </label>
                 </div>
+
+                <div class="mb-4">
+                    <h5 class="text-success mb-3">📍 ที่อยู่จัดส่ง</h5>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="card bg-dark border-info mb-3 address-card active" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <input type="radio" name="address" checked class="form-check-input">
+                                        <div class="ms-3">
+                                            <p class="text-white fw-bold mb-1">สมชาย ใจดี</p>
+                                            <small class="text-muted">
+                                                099-999-9999<br>
+                                                123/45 ต.สุเทพ อ.เมือง เชียงใหม่ 50200
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="card bg-dark border-info mb-3 address-card" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <input type="radio" name="address" class="form-check-input">
+                                        <div class="ms-3">
+                                            <p class="text-white fw-bold mb-1">หอพักนักศึกษา</p>
+                                            <small class="text-muted">
+                                                088-888-8888<br>
+                                                หน้า มทร.ล้านนา เชียงใหม่
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <!-- Order Summary -->
@@ -149,29 +145,35 @@ if (empty($cart_total['items'])) {
                     <div class="card-body">
                         <h5 class="text-success mb-3">📊 สรุปการสั่งซื้อ</h5>
 
-                        <div class="d-flex justify-content-between pb-2 border-bottom border-info" style="opacity: 0.3;">
+                        <div class="d-flex justify-content-between pb-2 border-bottom border-info"
+                            style="opacity: 0.3;">
                             <span class="text-muted">จำนวนสินค้า:</span>
                             <span class="text-success"><?php echo $cart_total['item_count']; ?> รายการ</span>
                         </div>
 
-                        <div class="d-flex justify-content-between py-2 border-bottom border-info" style="opacity: 0.3;">
+                        <div class="d-flex justify-content-between py-2 border-bottom border-info"
+                            style="opacity: 0.3;">
                             <span class="text-muted">ราคาสินค้า:</span>
                             <span class="text-white">฿<?php echo number_format($cart_total['subtotal'], 2); ?></span>
                         </div>
 
                         <?php if ($cart_total['total_discount'] > 0): ?>
-                            <div class="d-flex justify-content-between py-2 border-bottom border-info text-success" style="opacity: 0.3;">
-                                <span>ส่วนลด:</span>
-                                <span>-฿<?php echo number_format($cart_total['total_discount'], 2); ?></span>
-                            </div>
+                        <div class="d-flex justify-content-between py-2 border-bottom border-info text-success"
+                            style="opacity: 0.3;">
+                            <span>ส่วนลด:</span>
+                            <span>-฿<?php echo number_format($cart_total['total_discount'], 2); ?></span>
+                        </div>
                         <?php endif; ?>
 
-                        <div class="d-flex justify-content-between pt-3 border-top border-info" style="border-width: 2px !important;">
+                        <div class="d-flex justify-content-between pt-3 border-top border-info"
+                            style="border-width: 2px !important;">
                             <span class="text-success fw-bold" style="font-size: 1.3rem;">ยอดรวมทั้งสิ้น:</span>
-                            <span class="text-success fw-bold" style="font-size: 1.3rem;">฿<?php echo number_format($cart_total['grand_total'], 2); ?></span>
+                            <span class="text-success fw-bold"
+                                style="font-size: 1.3rem;">฿<?php echo number_format($cart_total['grand_total'], 2); ?></span>
                         </div>
 
-                        <button class="btn btn-primary w-100 mt-3 fw-bold" id="confirmBtn" onclick="confirmCheckout()" disabled>
+                        <button class="btn btn-primary w-100 mt-3 fw-bold" id="confirmBtn" onclick="confirmCheckout()"
+                            disabled>
                             <i class="bi bi-check-circle me-2"></i>ยืนยันการสั่งซื้อ
                         </button>
 
@@ -182,57 +184,58 @@ if (empty($cart_total['items'])) {
                 </div>
             </div>
         </div>
+        <!-- Address Section -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Enable button when terms are agreed
-        document.getElementById('agreeTerms').addEventListener('change', function() {
-            document.getElementById('confirmBtn').disabled = !this.checked;
-        });
+    // Enable button when terms are agreed
+    document.getElementById('agreeTerms').addEventListener('change', function() {
+        document.getElementById('confirmBtn').disabled = !this.checked;
+    });
 
-        // Highlight selected payment method
-        document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.querySelectorAll('.payment-method-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
-                this.closest('.payment-method-card').classList.add('selected');
+    // Highlight selected payment method
+    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('.payment-method-card').forEach(card => {
+                card.classList.remove('selected');
             });
+            this.closest('.payment-method-card').classList.add('selected');
         });
+    });
 
-        function confirmCheckout() {
-            if (!document.getElementById('agreeTerms').checked) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'ยังไม่ยอมรับเงื่อนไข',
-                    text: 'กรุณายอมรับเงื่อนไขและข้อตกลงก่อน',
-                    confirmButtonColor: '#0099cc'
-                });
-                return;
-            }
-
-            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-
+    function confirmCheckout() {
+        if (!document.getElementById('agreeTerms').checked) {
             Swal.fire({
-                title: 'ยืนยันการสั่งซื้อ',
-                text: 'คุณต้องการสั่งซื้อสินค้าหรือไม่?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#0099cc',
-                cancelButtonColor: '#444',
-                confirmButtonText: 'ยืนยัน',
-                cancelButtonText: 'ยกเลิก'
-            }).then(result => {
-                if (result.isConfirmed) {
-                    processCheckout(paymentMethod);
-                }
+                icon: 'warning',
+                title: 'ยังไม่ยอมรับเงื่อนไข',
+                text: 'กรุณายอมรับเงื่อนไขและข้อตกลงก่อน',
+                confirmButtonColor: '#0099cc'
             });
+            return;
         }
 
-        function processCheckout(paymentMethod) {
-            fetch('router/order.router.php?action=create', {
+        const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+
+        Swal.fire({
+            title: 'ยืนยันการสั่งซื้อ',
+            text: 'คุณต้องการสั่งซื้อสินค้าหรือไม่?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#0099cc',
+            cancelButtonColor: '#444',
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก'
+        }).then(result => {
+            if (result.isConfirmed) {
+                processCheckout(paymentMethod);
+            }
+        });
+    }
+
+    function processCheckout(paymentMethod) {
+        fetch('router/order.router.php?action=create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -268,7 +271,7 @@ if (empty($cart_total['items'])) {
                     confirmButtonColor: '#0099cc'
                 });
             });
-        }
+    }
     </script>
 
     <?php include('include/footer.php') ?>

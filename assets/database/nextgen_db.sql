@@ -114,57 +114,7 @@ CREATE TABLE `event_tb` (
 --
 
 INSERT INTO `event_tb` (`event_id`, `event_name`, `event_discount`, `created_at`, `updated_at`) VALUES
-(10, 'Event1', 3, '2026-01-10 20:37:11', '2026-01-10 20:37:11'),
-(11, 'Event2', 10, '2026-01-12 22:34:12', '2026-01-12 22:34:12');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_detail_tb`
---
-
-CREATE TABLE `order_detail_tb` (
-  `detail_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `product_price` decimal(10,2) NOT NULL,
-  `product_qty` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_item_tb`
---
-
-CREATE TABLE `order_item_tb` (
-  `order_item_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price_per_unit` decimal(10,2) NOT NULL,
-  `discount_per_unit` decimal(10,2) DEFAULT 0.00,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_tb`
---
-
-CREATE TABLE `order_tb` (
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `order_fullname` varchar(255) NOT NULL,
-  `order_phone` varchar(20) NOT NULL,
-  `order_address` text NOT NULL,
-  `total_price` decimal(10,2) NOT NULL,
-  `order_status` tinyint(1) DEFAULT 0 COMMENT '0=Preparing, 1=Shipped',
-  `tracking_number` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(10, 'Event1', 3, '2026-01-10 20:37:11', '2026-01-10 20:37:11');
 
 -- --------------------------------------------------------
 
@@ -264,6 +214,13 @@ INSERT INTO `user_tb` (`user_id`, `user_username`, `user_password`, `user_fullna
 --
 
 --
+-- Indexes for table `address_tb`
+--
+ALTER TABLE `address_tb`
+  ADD PRIMARY KEY (`address_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `admin_tb`
 --
 ALTER TABLE `admin_tb`
@@ -344,6 +301,12 @@ ALTER TABLE `user_tb`
 --
 
 --
+-- AUTO_INCREMENT for table `address_tb`
+--
+ALTER TABLE `address_tb`
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `admin_tb`
 --
 ALTER TABLE `admin_tb`
@@ -412,32 +375,6 @@ ALTER TABLE `user_tb`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `cart_tb`
---
-ALTER TABLE `cart_tb`
-  ADD CONSTRAINT `cart_tb_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `cart_tb_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product_tb` (`product_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `order_detail_tb`
---
-ALTER TABLE `order_detail_tb`
-  ADD CONSTRAINT `order_detail_tb_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order_tb` (`order_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `order_item_tb`
---
-ALTER TABLE `order_item_tb`
-  ADD CONSTRAINT `order_item_tb_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order_tb` (`order_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `order_item_tb_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product_tb` (`product_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `order_tb`
---
-ALTER TABLE `order_tb`
-  ADD CONSTRAINT `order_tb_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`);
 
 --
 -- Constraints for table `product_tb`

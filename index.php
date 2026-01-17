@@ -41,16 +41,16 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
         <div id="carouselExample" class="carousel slide mt-custom" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="assets/images/news/<?php echo $data['banner_1']['content_image']; ?>" alt="banner" class="w-100 rounded object-fit-cover"
-                        style="height: 700px;">
+                    <img src="assets/images/news/<?php echo $data['banner_1']['content_image']; ?>" alt="banner"
+                        class="w-100 rounded object-fit-cover" style="height: 700px;">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/images/news/<?php echo $data['banner_2']['content_image']; ?>" alt="banner2" class="w-100 rounded object-fit-cover"
-                        style="height: 700px;">
+                    <img src="assets/images/news/<?php echo $data['banner_2']['content_image']; ?>" alt="banner2"
+                        class="w-100 rounded object-fit-cover" style="height: 700px;">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/images/news/<?php echo $data['banner_3']['content_image']; ?>" alt="banner3" class="w-100 rounded object-fit-cover"
-                        style="height: 700px;">
+                    <img src="assets/images/news/<?php echo $data['banner_3']['content_image']; ?>" alt="banner3"
+                        class="w-100 rounded object-fit-cover" style="height: 700px;">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -68,9 +68,8 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
                 <div class="row text-center align-items-center">
                     <div class="col-md-4 my-auto">
                         <a href="order_status" class="h5 mb-0 fw-semibold text-decoration-none">
-                            <i class="bi bi-ticket-perforated-fill text-primary me-1"
-                                style="transform: rotate(-30deg); display: inline-block;"></i>
-                            ดูสถานะสินค้า</a>
+                            <i class="bi bi-receipt text-primary me-1"
+                                style="transform: rotate(-30deg); display: inline-block;"></i> ประวัติการสั่ง</a>
                     </div>
                     <div class="col-md-4 border-start border-end">
                         <h4 class="mb-0 fw-bold text-main" id="realtime"></h4>
@@ -289,8 +288,8 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
         <h4 class="text-main my-4">| รายการสินค้าใหม่</h4>
         <div class="row">
             <?php if (!empty($random_products)): ?>
-                <?php foreach ($random_products as $product): ?>
-                    <?php
+            <?php foreach ($random_products as $product): ?>
+            <?php
                     // --- ส่วนคำนวณ Logic ---
                     $original_price = $product['product_price'];
                     $discount = $product['event_discount'] ?? 0;
@@ -298,93 +297,97 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
                     $has_discount = ($discount > 0);
                     $stock = $product['product_qty'];
                     ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="card card-product border-0 shadow-sm h-100 text-dark overflow-hidden">
+            <div class="col-md-4 mb-4">
+                <div class="card card-product border-0 shadow-sm h-100 text-dark overflow-hidden">
 
-                            <?php if (!empty($product['event_name'])): ?>
-                                <span class="position-absolute top-0 start-0 m-2 badge rounded-pill bg-danger shadow-sm" style="z-index: 1;">
-                                    <i class="bi bi-tag-fill me-1"></i> <?php echo $product['event_name']; ?>
-                                </span>
-                            <?php endif; ?>
-
-
-                            <img src="assets/images/product/<?php echo $product['product_picture'] ?>"
-                                class="w-100 object-fit-cover"
-                                style="height: 300px;"
-                                alt="<?php echo $product['product_name']; ?>">
+                    <?php if (!empty($product['event_name'])): ?>
+                    <span class="position-absolute top-0 start-0 m-2 badge rounded-pill bg-danger shadow-sm"
+                        style="z-index: 1;">
+                        <i class="bi bi-tag-fill me-1"></i> <?php echo $product['event_name']; ?>
+                    </span>
+                    <?php endif; ?>
 
 
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h5>
+                    <img src="assets/images/product/<?php echo $product['product_picture'] ?>"
+                        class="w-100 object-fit-cover" style="height: 300px;"
+                        alt="<?php echo $product['product_name']; ?>">
 
-                                <p class="text-muted small mb-3 text-truncate-2">
-                                    <?php echo $product['product_detail'] ?: 'ไม่มีรายละเอียดสินค้าในขณะนี้'; ?>
-                                </p>
 
-                                <div class="mt-auto">
-                                    <div class="mb-2">
-                                        <?php if ($has_discount): ?>
-                                            <h5 class="text-main d-inline fw-bold mb-0">฿<?php echo number_format($final_price, 2); ?></h5>
-                                            <small class="text-muted text-decoration-line-through ms-2">฿<?php echo number_format($original_price, 2); ?></small>
-                                        <?php else: ?>
-                                            <h5 class="text-main fw-bold mb-0">฿<?php echo number_format($original_price, 2); ?></h5>
-                                        <?php endif; ?>
-                                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="fw-bold mb-1 text-truncate"><?php echo $product['product_name']; ?></h5>
 
-                                    <div class="d-flex justify-content-between align-items-center pt-2 border-top mb-3">
-                                        <small class="text-muted">
-                                            <i class="bi bi-box-seam me-1"></i> คงเหลือ:
-                                            <span class="<?php echo $stock <= 5 ? 'text-danger fw-bold' : ''; ?>">
-                                                <?php echo $stock; ?> ชิ้น
-                                            </span>
-                                        </small>
-                                    </div>
+                        <p class="text-muted small mb-3 text-truncate-2">
+                            <?php echo $product['product_detail'] ?: 'ไม่มีรายละเอียดสินค้าในขณะนี้'; ?>
+                        </p>
 
-                                    <?php if ($isUser): ?>
-                                        <a href="cart_action.php?action=add&id=<?php echo $product['product_id']; ?>"
-                                            class="btn btn-main w-100 fw-bold">
-                                            <i class="bi bi-cart-plus me-2"></i> เพิ่มลงตะกร้า
-                                        </a>
-                                    <?php else: ?>
-                                        <button onclick="location.href='login.php';" class="btn btn-outline-secondary w-100 fw-bold">
-                                            <i class="bi bi-lock-fill me-2"></i> เข้าสู่ระบบเพื่อสั่งซื้อ
-                                        </button>
-                                    <?php endif; ?>
-                                </div>
+                        <div class="mt-auto">
+                            <div class="mb-2">
+                                <?php if ($has_discount): ?>
+                                <h5 class="text-main d-inline fw-bold mb-0">
+                                    ฿<?php echo number_format($final_price, 2); ?></h5>
+                                <small
+                                    class="text-muted text-decoration-line-through ms-2">฿<?php echo number_format($original_price, 2); ?></small>
+                                <?php else: ?>
+                                <h5 class="text-main fw-bold mb-0">฿<?php echo number_format($original_price, 2); ?>
+                                </h5>
+                                <?php endif; ?>
                             </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top mb-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-box-seam me-1"></i> คงเหลือ:
+                                    <span class="<?php echo $stock <= 5 ? 'text-danger fw-bold' : ''; ?>">
+                                        <?php echo $stock; ?> ชิ้น
+                                    </span>
+                                </small>
+                            </div>
+
+                            <?php if ($isUser): ?>
+                            <a href="cart_action.php?action=add&id=<?php echo $product['product_id']; ?>"
+                                class="btn btn-main w-100 fw-bold">
+                                <i class="bi bi-cart-plus me-2"></i> เพิ่มลงตะกร้า
+                            </a>
+                            <?php else: ?>
+                            <button onclick="location.href='login.php';"
+                                class="btn btn-outline-secondary w-100 fw-bold">
+                                <i class="bi bi-lock-fill me-2"></i> เข้าสู่ระบบเพื่อสั่งซื้อ
+                            </button>
+                            <?php endif; ?>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
             <?php endif; ?>
         </div>
     </div>
 
     <?php include('include/footer.php') ?>
     <script>
-        // Show welcome alert if user just logged in
-        <?php if ($showLoginAlert): ?>
-        Swal.fire({
-            icon: 'success',
-            title: 'ยินดีต้อนรับ!',
-            html: 'สวัสดีคุณ <strong><?php echo htmlspecialchars($_SESSION['user_fullname']); ?></strong><br>เข้าสู่ระบบสำเร็จ',
-            confirmButtonText: 'เริ่มช้อปปิ้ง',
-            confirmButtonColor: '#0d6efd',
-            allowOutsideClick: false
-        });
-        <?php unset($_SESSION['user_login_success']); ?>
-        <?php endif; ?>
+    // Show welcome alert if user just logged in
+    <?php if ($showLoginAlert): ?>
+    Swal.fire({
+        icon: 'success',
+        title: 'ยินดีต้อนรับ!',
+        html: 'สวัสดีคุณ <strong><?php echo htmlspecialchars($_SESSION['user_fullname']); ?></strong><br>เข้าสู่ระบบสำเร็จ',
+        confirmButtonText: 'เริ่มช้อปปิ้ง',
+        confirmButtonColor: '#0d6efd',
+        allowOutsideClick: false
+    });
+    <?php unset($_SESSION['user_login_success']); ?>
+    <?php endif; ?>
 
-        function updateTime() {
-            const now = new Date();
-            const options = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            document.getElementById("realtime").textContent = now.toLocaleTimeString('th-TH', options);
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
+    function updateTime() {
+        const now = new Date();
+        const options = {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        document.getElementById("realtime").textContent = now.toLocaleTimeString('th-TH', options);
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
     </script>
 </body>
 
