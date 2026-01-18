@@ -51,7 +51,7 @@ function GetRandomProducts($limit = 3) {
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($products as &$product) {
+        foreach ($products as $product) {
             if (!empty($product['event_id']) && $product['event_discount'] > 0) {
                 $product['final_price'] = $product['product_price'] - $product['event_discount'];
             } else {

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // User actions
         if ($action === 'update_info') {
             $result = UpdateUserInfo($_SESSION['user_id'], 
-            data: [
+            [
                 'fullname' => $_POST['fullname'] ?? '',
                 'email' => $_POST['email'] ?? '',
                 'username' => $_POST['username'] ?? ''
