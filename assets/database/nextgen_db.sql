@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2026 at 07:28 PM
+-- Generation Time: Jan 18, 2026 at 06:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,13 +61,6 @@ CREATE TABLE `cart_tb` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cart_tb`
---
-
-INSERT INTO `cart_tb` (`cart_id`, `user_id`, `product_id`, `quantity`, `price_per_unit`, `created_at`, `updated_at`) VALUES
-(1, 2, 7, 1, 100.00, '2026-01-15 00:55:26', '2026-01-15 00:55:26');
-
 -- --------------------------------------------------------
 
 --
@@ -114,7 +107,77 @@ CREATE TABLE `event_tb` (
 --
 
 INSERT INTO `event_tb` (`event_id`, `event_name`, `event_discount`, `created_at`, `updated_at`) VALUES
-(10, 'Event1', 3, '2026-01-10 20:37:11', '2026-01-10 20:37:11');
+(10, 'Event1', 3, '2026-01-10 20:37:11', '2026-01-10 20:37:11'),
+(11, 'Event2', 10, '2026-01-12 22:34:12', '2026-01-12 22:34:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_detail_tb`
+--
+
+CREATE TABLE `order_detail_tb` (
+  `detail_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `product_price` decimal(10,2) NOT NULL,
+  `product_qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_item_tb`
+--
+
+CREATE TABLE `order_item_tb` (
+  `order_item_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price_per_unit` decimal(10,2) NOT NULL,
+  `discount_per_unit` decimal(10,2) DEFAULT 0.00,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_item_tb`
+--
+
+INSERT INTO `order_item_tb` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price_per_unit`, `discount_per_unit`, `created_at`) VALUES
+(1, 1, 7, 1, 100.00, 3.00, '2026-01-18 22:27:13'),
+(2, 2, 7, 1, 100.00, 3.00, '2026-01-18 23:06:33'),
+(3, 3, 6, 1, 1000.00, 0.00, '2026-01-18 23:08:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_tb`
+--
+
+CREATE TABLE `order_tb` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order_fullname` varchar(255) DEFAULT NULL,
+  `order_phone` varchar(20) DEFAULT NULL,
+  `order_address` text DEFAULT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `order_status` enum('pending','confirmed','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
+  `payment_status` enum('pending','paid','failed') NOT NULL DEFAULT 'pending',
+  `tracking_number` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_tb`
+--
+
+INSERT INTO `order_tb` (`order_id`, `user_id`, `order_fullname`, `order_phone`, `order_address`, `total_price`, `order_status`, `payment_status`, `tracking_number`, `created_at`, `updated_at`) VALUES
+(1, 2, NULL, NULL, NULL, 97.00, 'pending', 'paid', NULL, '2026-01-18 15:27:13', '2026-01-18 22:45:14'),
+(2, 2, NULL, NULL, NULL, 97.00, 'shipped', 'paid', NULL, '2026-01-18 16:06:33', '2026-01-18 23:39:04'),
+(3, 2, NULL, NULL, NULL, 1000.00, 'cancelled', 'paid', NULL, '2026-01-18 16:08:04', '2026-01-18 23:38:44');
 
 -- --------------------------------------------------------
 
@@ -141,8 +204,8 @@ CREATE TABLE `product_tb` (
 
 INSERT INTO `product_tb` (`product_id`, `product_name`, `product_type_id`, `product_price`, `product_detail`, `product_picture`, `event_id`, `product_qty`, `created_at`, `updated_at`) VALUES
 (5, 'สินค้าที่ 1', 8, 1290.00, 'บลา ๆ ๆ ๆ ๆ', 'prod_69625621da4d9_1768052257.png', 10, 12, '2026-01-10 20:37:37', '2026-01-10 20:37:37'),
-(6, 'สินค้าที่ 2', 8, 1000.00, 'บลา ๆ ๆ ๆ ๆ', 'prod_69626d9524948_1768058261.png', NULL, 12, '2026-01-10 22:17:41', '2026-01-10 22:17:41'),
-(7, 'สินค้าที่ 3', 9, 100.00, '121212', 'prod_69627c63e9e11_1768062051.png', 10, 1, '2026-01-10 23:20:51', '2026-01-10 23:20:51');
+(6, 'สินค้าที่ 2', 8, 1000.00, 'บลา ๆ ๆ ๆ ๆ', 'prod_69626d9524948_1768058261.png', NULL, 11, '2026-01-10 22:17:41', '2026-01-10 22:17:41'),
+(7, 'สินค้าที่ 3', 9, 100.00, '121212', 'prod_69627c63e9e11_1768062051.png', 10, 0, '2026-01-10 23:20:51', '2026-01-10 23:20:51');
 
 -- --------------------------------------------------------
 
@@ -182,6 +245,13 @@ CREATE TABLE `user_address_tb` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `user_address_tb`
+--
+
+INSERT INTO `user_address_tb` (`address_id`, `user_id`, `address_name`, `recipient_name`, `recipient_phone`, `address_detail`, `postal_code`, `created_at`) VALUES
+(3, 2, 'ที่อยู่ 1', 'สมชาย ใจร้าย', '0255635214', 'ำไดไดฟไหดหกด', '89565', '2026-01-18 12:24:55');
+
 -- --------------------------------------------------------
 
 --
@@ -208,25 +278,6 @@ INSERT INTO `user_tb` (`user_id`, `user_username`, `user_password`, `user_fullna
 (1, 'user', '$2y$10$ExtIiRbSryE3ItZYkiI1aeGwkxWUkHaNkcbNBFBlPBfEL2R5Tvcia', 'สมชาย ใจดี', 'name@gmail.com', '0252525252', 'unactive', '2025-12-27 22:25:49', '2026-01-14 22:31:28'),
 (2, 'user2', '$2y$10$PU9pK5TvrhcNlQK.noeOhupbqJsR0qKsq3KqJ7.RW5lwSiftiYEjS', 'สมชาย ใจร้าย', 'name2@gmail.com', '0325132658', 'active', '2026-01-10 23:59:22', '2026-01-10 23:59:22'),
 (3, 'user3', '$2y$10$o/C5ZVDkSSHviKJIxsl92eMhuD4PEKkertRL4xHowrdR5TygEVvba', 'สมชาย ใจวาย', 'name3@gmail.com', '0215458754', 'active', '2026-01-11 00:00:05', '2026-01-11 14:07:42');
-
-CREATE TABLE `order_tb` (
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `total_price` decimal(10,2) NOT NULL,
-  `order_status` enum('pending','confirmed','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
-  `payment_status` enum('pending','paid','failed') NOT NULL DEFAULT 'pending',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `order_item_tb` (
-  `order_item_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL DEFAULT 1,
-  `price_per_unit` decimal(10,2) NOT NULL,
-  `discount_per_unit` decimal(10,2) NOT NULL DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -258,6 +309,13 @@ ALTER TABLE `content_tb`
 --
 ALTER TABLE `event_tb`
   ADD PRIMARY KEY (`event_id`);
+
+--
+-- Indexes for table `order_detail_tb`
+--
+ALTER TABLE `order_detail_tb`
+  ADD PRIMARY KEY (`detail_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `order_item_tb`
@@ -315,7 +373,7 @@ ALTER TABLE `admin_tb`
 -- AUTO_INCREMENT for table `cart_tb`
 --
 ALTER TABLE `cart_tb`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `content_tb`
@@ -330,16 +388,22 @@ ALTER TABLE `event_tb`
   MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT for table `order_detail_tb`
+--
+ALTER TABLE `order_detail_tb`
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `order_item_tb`
 --
 ALTER TABLE `order_item_tb`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_tb`
 --
 ALTER TABLE `order_tb`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product_tb`
@@ -357,7 +421,7 @@ ALTER TABLE `product_type_tb`
 -- AUTO_INCREMENT for table `user_address_tb`
 --
 ALTER TABLE `user_address_tb`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_tb`
@@ -368,6 +432,32 @@ ALTER TABLE `user_tb`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `cart_tb`
+--
+ALTER TABLE `cart_tb`
+  ADD CONSTRAINT `cart_tb_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_tb_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product_tb` (`product_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_detail_tb`
+--
+ALTER TABLE `order_detail_tb`
+  ADD CONSTRAINT `order_detail_tb_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order_tb` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_item_tb`
+--
+ALTER TABLE `order_item_tb`
+  ADD CONSTRAINT `order_item_tb_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order_tb` (`order_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_item_tb_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product_tb` (`product_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_tb`
+--
+ALTER TABLE `order_tb`
+  ADD CONSTRAINT `order_tb_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`);
 
 --
 -- Constraints for table `product_tb`
