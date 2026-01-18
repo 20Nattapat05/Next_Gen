@@ -209,16 +209,28 @@ INSERT INTO `user_tb` (`user_id`, `user_username`, `user_password`, `user_fullna
 (2, 'user2', '$2y$10$PU9pK5TvrhcNlQK.noeOhupbqJsR0qKsq3KqJ7.RW5lwSiftiYEjS', 'สมชาย ใจร้าย', 'name2@gmail.com', '0325132658', 'active', '2026-01-10 23:59:22', '2026-01-10 23:59:22'),
 (3, 'user3', '$2y$10$o/C5ZVDkSSHviKJIxsl92eMhuD4PEKkertRL4xHowrdR5TygEVvba', 'สมชาย ใจวาย', 'name3@gmail.com', '0215458754', 'active', '2026-01-11 00:00:05', '2026-01-11 14:07:42');
 
+CREATE TABLE `order_tb` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `order_status` enum('pending','confirmed','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
+  `payment_status` enum('pending','paid','failed') NOT NULL DEFAULT 'pending',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `order_item_tb` (
+  `order_item_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `price_per_unit` decimal(10,2) NOT NULL,
+  `discount_per_unit` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `address_tb`
---
-ALTER TABLE `address_tb`
-  ADD PRIMARY KEY (`address_id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `admin_tb`
@@ -246,13 +258,6 @@ ALTER TABLE `content_tb`
 --
 ALTER TABLE `event_tb`
   ADD PRIMARY KEY (`event_id`);
-
---
--- Indexes for table `order_detail_tb`
---
-ALTER TABLE `order_detail_tb`
-  ADD PRIMARY KEY (`detail_id`),
-  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `order_item_tb`
@@ -301,12 +306,6 @@ ALTER TABLE `user_tb`
 --
 
 --
--- AUTO_INCREMENT for table `address_tb`
---
-ALTER TABLE `address_tb`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `admin_tb`
 --
 ALTER TABLE `admin_tb`
@@ -329,12 +328,6 @@ ALTER TABLE `content_tb`
 --
 ALTER TABLE `event_tb`
   MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `order_detail_tb`
---
-ALTER TABLE `order_detail_tb`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_item_tb`

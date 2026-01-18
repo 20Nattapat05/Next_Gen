@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../function/user/order_function.php';
+require_once __DIR__ . '/../function/user/address_function.php';
 
 // Initialize session
 if (session_status() === PHP_SESSION_NONE) {
@@ -21,7 +22,23 @@ $response = ['success' => false, 'message' => 'Action ไม่ถูกต้�
 switch ($action) {
     case 'create':
         // Create order from cart
-        $payment_method = isset($_POST['payment_method']) ? htmlspecialchars($_POST['payment_method']) : 'bank_transfer';
+        $address_id = isset($_POST['address_id']) ? intval($_POST['address_id']) : 0;
+        
+        // Validate address belongs to user
+        $valid = false;
+        if ($address_id > 0) {
+            $addresses = GetAddressesByUserId($user_id);
+            foreach ($addresses as $a) {
+                if (intval($a['address_id']) === $address_id) {
+                    $valid = true;
+                    break;
+                }
+            }
+        }
+        if (!$valid) {
+            $response = ['success' => false, 'message' => 'กรุณาเลือกที่อยู่จัดส่งที่ถูกต้อง'];
+            break;
+        }
         
         $result = CreateOrder($user_id);
         if ($result['success']) {

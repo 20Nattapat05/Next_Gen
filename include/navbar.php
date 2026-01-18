@@ -44,6 +44,11 @@ if ($isAdmin) {
                         <i class="bi bi-cart-fill"></i> ตะกร้า
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-1" href="order_history.php">
+                        <i class="bi bi-receipt"></i> Order History
+                    </a>
+                </li>
 
                 <!-- Account button for logged in users -->
                 <li class="nav-item">

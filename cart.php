@@ -63,14 +63,15 @@ $cart_total = CalculateCartTotal($user_id);
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control text-center quantity-input-<?php echo $item['cart_id']; ?>" 
-                                            value="<?php echo $item['quantity']; ?>" min="1" max="999"
-                                            data-cart-id="<?php echo $item['cart_id']; ?>"
-                                            style="border: 2px solid #0099cc; color: #1a1a1a; background-color: #f5f5f5;">
+                                        <div class="text-center">
+                                            <span class="badge bg-info text-dark" style="font-size: 1rem;">
+                                                <?php echo $item['quantity']; ?> ชิ้น
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="col-md-2 text-end">
                                         <p class="fw-bold mb-2" style="color: #0099cc; font-size: 1.1rem;">฿<?php echo number_format($item['item_total'], 2); ?></p>
-                                        <button class="btn btn-sm btn-outline-danger btn-remove-<?php echo $item['cart_id']; ?>"
+                                        <button class="btn btn-sm btn-outline-danger btn-remove"
                                             data-cart-id="<?php echo $item['cart_id']; ?>">
                                             <i class="bi bi-trash"></i> ลบ
                                         </button>
@@ -138,20 +139,6 @@ $cart_total = CalculateCartTotal($user_id);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Update quantity
-        document.querySelectorAll('.quantity-input').forEach(input => {
-            input.addEventListener('change', function() {
-                const cartId = this.dataset.cartId;
-                const quantity = parseInt(this.value);
-
-                if (quantity <= 0) {
-                    this.value = 1;
-                    return;
-                }
-
-                updateCartItem(cartId, quantity);
-            });
-        });
 
         // Remove item
         document.querySelectorAll('.btn-remove').forEach(btn => {
@@ -161,38 +148,7 @@ $cart_total = CalculateCartTotal($user_id);
             });
         });
 
-        function updateCartItem(cartId, quantity) {
-            const formData = new FormData();
-            formData.append('cart_id', cartId);
-            formData.append('quantity', quantity);
-
-            fetch('router/cart.router.php?action=update', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'ผิดพลาด',
-                        text: data.message,
-                        confirmButtonColor: '#0099cc'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ผิดพลาด',
-                    text: 'เกิดข้อผิดพลาดในการอัปเดต',
-                    confirmButtonColor: '#0099cc'
-                });
-            });
-        }
+        // จำนวนสินค้าในตะกร้าจะเพิ่มเมื่อกดเพิ่มสินค้าจากหน้ารายการสินค้าเท่านั้น
 
         function removeCartItem(cartId) {
             Swal.fire({

@@ -187,6 +187,7 @@ function CalculateCartTotal($user_id) {
                 'product_id' => $item['product_id'],
                 'product_name' => $item['product_name'],
                 'quantity' => $item['quantity'],
+                'available_qty' => $item['product_qty'],
                 'picture' => $item['product_picture'],
                 'price_per_unit' => $item['price_per_unit'],
                 'discount_per_unit' => $item['event_discount'] ?? 0,

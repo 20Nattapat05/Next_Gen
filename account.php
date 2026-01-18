@@ -77,7 +77,7 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
                     <div class="card-body">
                         <?php if (!$isAdmin): ?>
                         <a href="#" class="btn btn-outline-success w-100 mb-1" data-bs-toggle="modal"
-                            data-bs-target="#manageAddressModal">จัดการที่อยู่</a>
+                            data-bs-target="#addAddressModal">จัดการที่อยู่</a>
                         <?php endif; ?>
                         <button class="btn btn-outline-primary w-100 my-1" data-bs-toggle="modal"
                             data-bs-target="#editProfileModal">
@@ -190,33 +190,7 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
 
 
 
-        <div class="modal fade" id="manageAddressModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content bg-dark text-light">
-                    <div class="modal-header">
-                        <h5 class="modal-title">จัดการที่อยู่</h5>
-                        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="post">
-                            <div class="form-group mb-3">
-                                <label for="">ชื่อเรียก</label>
-                                <input type="text" class="form-control" name="" id="">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="">ที่อยู่</label>
-                                <textarea name="" id="" class="form-control" placeholder="กรอกที่อยู่"></textarea>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="">รายละเอียดบอกคนส่ง</label>
-                                <input type="text" class="form-control" name="" id="">
-                            </div>
-                            <button type="submit" class="btn btn-main w-100">บันทึก</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="modal fade" id="addAddressModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -225,27 +199,27 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
                         <h5 class="modal-title">เพิ่มที่อยู่ใหม่</h5>
                         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
-                    <form id="addAddressForm">
+                    <form id="addAddressForm" action="/Next_Gen/router/add_address.router.php" method="POST">
                         <div class="modal-body">
                             <div class="mb-2">
                                 <label>ชื่อที่อยู่</label>
-                                <input type="text" name="address_name" class="form-control" required>
+                                <input type="text" name="address_name" class="form-control">
                             </div>
                             <div class="mb-2">
                                 <label>ชื่อผู้รับ</label>
-                                <input type="text" name="recipient_name" class="form-control" required>
+                                <input type="text" name="recipient_name" class="form-control">
                             </div>
                             <div class="mb-2">
                                 <label>เบอร์โทรผู้รับ</label>
-                                <input type="text" name="recipient_phone" class="form-control" required>
+                                <input type="text" name="recipient_phone" class="form-control">
                             </div>
                             <div class="mb-2">
                                 <label>รายละเอียดที่อยู่</label>
-                                <textarea name="address_detail" class="form-control" rows="3" required></textarea>
+                                <textarea name="address_detail" class="form-control" rows="3"></textarea>
                             </div>
                             <div class="mb-2">
                                 <label>รหัสไปรษณีย์</label>
-                                <input type="text" name="postal_code" class="form-control" required>
+                                <input type="text" name="postal_code" class="form-control">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -261,11 +235,10 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
 
 
         <?php if (!$isAdmin): 
-            require_once 'models/AddressModel.php';
-            $addressModel = new AddressModel();
-            $addresses = $addressModel->getAddressesByUserId($_SESSION['user_id']);
+            require_once __DIR__ . '/function/user/address_function.php';
+            $addresses = GetAddressesByUserId($_SESSION['user_id']);
         ?>
-        <div class="row">
+        <div class="row mt-3">
             <?php if (empty($addresses)): ?>
             <div class="col-md-12">
                 <div class="card">
@@ -297,6 +270,34 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php
+    if (isset($_SESSION['success'])) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: '" . addslashes($_SESSION['success']) . "',
+                    showConfirmButton: true
+                });
+            });
+        </script>";
+        unset($_SESSION['success']);
+    }
+    if (isset($_SESSION['error'])) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: '" . addslashes($_SESSION['error']) . "',
+                    confirmButtonColor: '#d33'
+                });
+            });
+        </script>";
+        unset($_SESSION['error']);
+    }
+    ?>
 
     <script>
     function confirmLogout() {
@@ -430,85 +431,15 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
     </script>
 
     <script>
+    /*
     document.getElementById('addAddressForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('router/add_address.router.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire('สำเร็จ', 'เพิ่มที่อยู่แล้ว', 'success');
-                // Close modal and reload addresses
-                bootstrap.Modal.getInstance(document.getElementById('addAddressModal')).hide();
-                loadAddresses();
-            } else {
-                Swal.fire('ผิดพลาด', data.message, 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาด', 'error');
-        });
+        // Form submits naturally now
     });
+    */
 
-    function loadAddresses() {
-        fetch('router/get_addresses.router.php')
-        .then(response => response.json())
-        .then(data => {
-            const addressList = document.getElementById('addressList');
-            addressList.innerHTML = '';
-            data.addresses.forEach(address => {
-                const addressDiv = document.createElement('div');
-                addressDiv.className = 'card mb-2';
-                addressDiv.innerHTML = `
-                    <div class="card-body">
-                        <h5>${address.address_name}</h5>
-                        <p>ผู้รับ: ${address.recipient_name}</p>
-                        <p>โทร: ${address.recipient_phone}</p>
-                        <p>${address.address_detail}</p>
-                        <p>รหัสไปรษณีย์: ${address.postal_code}</p>
-                        <button class="btn btn-danger btn-sm" onclick="deleteAddress(${address.address_id})">ลบ</button>
-                    </div>
-                `;
-                addressList.appendChild(addressDiv);
-            });
-        });
-    }
+    
 
-    function deleteAddress(addressId) {
-        Swal.fire({
-            title: 'ยืนยันการลบ?',
-            text: "คุณต้องการลบที่อยู่นี้ใช่หรือไม่",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'ใช่, ลบ',
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch('router/delete_address.router.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ address_id: addressId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire('สำเร็จ', 'ลบที่อยู่แล้ว', 'success');
-                        loadAddresses();
-                    } else {
-                        Swal.fire('ผิดพลาด', data.message, 'error');
-                    }
-                });
-            }
-        });
-    }
+    
 
     function deleteAddressFromPage(addressId) {
         Swal.fire({
@@ -532,8 +463,9 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        Swal.fire('สำเร็จ', 'ลบที่อยู่แล้ว', 'success');
-                        location.reload();
+                        Swal.fire('สำเร็จ', 'ลบที่อยู่แล้ว', 'success').then(() => {
+                            location.reload();
+                        });
                     } else {
                         Swal.fire('ผิดพลาด', data.message, 'error');
                     }
@@ -542,8 +474,7 @@ $navbar_file = $isAdmin ? 'include/navbar_admin.php' : 'include/navbar.php';
         });
     }
 
-    // Load addresses when manage address modal is shown
-    document.getElementById('manageAddressModal').addEventListener('show.bs.modal', loadAddresses);
+    
     </script>
 
     <script>
