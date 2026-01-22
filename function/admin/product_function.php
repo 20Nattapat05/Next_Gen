@@ -38,7 +38,17 @@ function GetAllProduct($search = null, $category = null, $sort = 'latest')
         // $params = ['search' => '%$search%',
         //            ':category' => $category,]
         $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($products as &$product) {
+            if (!empty($product['event_id']) && $product['event_discount'] > 0) {
+                $product['final_price'] = $product['product_price'] * (1 - $product['event_discount'] / 100);
+            } else {
+                $product['final_price'] = $product['product_price'];
+            }
+        }
+        unset($product);
+        return $products;
     } catch (PDOException $e) {
         return [];
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2026 at 06:13 PM
+-- Generation Time: Jan 18, 2026 at 06:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -102,14 +102,6 @@ CREATE TABLE `event_tb` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `event_tb`
---
-
-INSERT INTO `event_tb` (`event_id`, `event_name`, `event_discount`, `created_at`, `updated_at`) VALUES
-(10, 'Event1', 3, '2026-01-10 20:37:11', '2026-01-10 20:37:11'),
-(11, 'Event2', 10, '2026-01-12 22:34:12', '2026-01-12 22:34:12');
-
 -- --------------------------------------------------------
 
 --
@@ -141,15 +133,6 @@ CREATE TABLE `order_item_tb` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order_item_tb`
---
-
-INSERT INTO `order_item_tb` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price_per_unit`, `discount_per_unit`, `created_at`) VALUES
-(1, 1, 7, 1, 100.00, 3.00, '2026-01-18 22:27:13'),
-(2, 2, 7, 1, 100.00, 3.00, '2026-01-18 23:06:33'),
-(3, 3, 6, 1, 1000.00, 0.00, '2026-01-18 23:08:04');
-
 -- --------------------------------------------------------
 
 --
@@ -170,15 +153,6 @@ CREATE TABLE `order_tb` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order_tb`
---
-
-INSERT INTO `order_tb` (`order_id`, `user_id`, `order_fullname`, `order_phone`, `order_address`, `total_price`, `order_status`, `payment_status`, `tracking_number`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, NULL, NULL, 97.00, 'pending', 'paid', NULL, '2026-01-18 15:27:13', '2026-01-18 22:45:14'),
-(2, 2, NULL, NULL, NULL, 97.00, 'shipped', 'paid', NULL, '2026-01-18 16:06:33', '2026-01-18 23:39:04'),
-(3, 2, NULL, NULL, NULL, 1000.00, 'cancelled', 'paid', NULL, '2026-01-18 16:08:04', '2026-01-18 23:38:44');
-
 -- --------------------------------------------------------
 
 --
@@ -198,15 +172,6 @@ CREATE TABLE `product_tb` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `product_tb`
---
-
-INSERT INTO `product_tb` (`product_id`, `product_name`, `product_type_id`, `product_price`, `product_detail`, `product_picture`, `event_id`, `product_qty`, `created_at`, `updated_at`) VALUES
-(5, 'สินค้าที่ 1', 8, 1290.00, 'บลา ๆ ๆ ๆ ๆ', 'prod_69625621da4d9_1768052257.png', 10, 12, '2026-01-10 20:37:37', '2026-01-10 20:37:37'),
-(6, 'สินค้าที่ 2', 8, 1000.00, 'บลา ๆ ๆ ๆ ๆ', 'prod_69626d9524948_1768058261.png', NULL, 11, '2026-01-10 22:17:41', '2026-01-10 22:17:41'),
-(7, 'สินค้าที่ 3', 9, 100.00, '121212', 'prod_69627c63e9e11_1768062051.png', 10, 0, '2026-01-10 23:20:51', '2026-01-10 23:20:51');
-
 -- --------------------------------------------------------
 
 --
@@ -219,14 +184,6 @@ CREATE TABLE `product_type_tb` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `product_type_tb`
---
-
-INSERT INTO `product_type_tb` (`product_type_id`, `product_type_name`, `created_at`, `updated_at`) VALUES
-(8, 'ประเภทที่ 1', '2026-01-08 20:38:36', '2026-01-08 20:38:36'),
-(9, 'ประเภทที่ 2', '2026-01-10 23:20:32', '2026-01-10 23:20:32');
 
 -- --------------------------------------------------------
 
@@ -244,13 +201,6 @@ CREATE TABLE `user_address_tb` (
   `postal_code` varchar(10) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user_address_tb`
---
-
-INSERT INTO `user_address_tb` (`address_id`, `user_id`, `address_name`, `recipient_name`, `recipient_phone`, `address_detail`, `postal_code`, `created_at`) VALUES
-(3, 2, 'ที่อยู่ 1', 'สมชาย ใจร้าย', '0255635214', 'ำไดไดฟไหดหกด', '89565', '2026-01-18 12:24:55');
 
 -- --------------------------------------------------------
 
@@ -275,9 +225,7 @@ CREATE TABLE `user_tb` (
 --
 
 INSERT INTO `user_tb` (`user_id`, `user_username`, `user_password`, `user_fullname`, `user_email`, `user_phone`, `user_status`, `created_at`, `updated_at`) VALUES
-(1, 'user', '$2y$10$ExtIiRbSryE3ItZYkiI1aeGwkxWUkHaNkcbNBFBlPBfEL2R5Tvcia', 'สมชาย ใจดี', 'name@gmail.com', '0252525252', 'unactive', '2025-12-27 22:25:49', '2026-01-14 22:31:28'),
-(2, 'user2', '$2y$10$PU9pK5TvrhcNlQK.noeOhupbqJsR0qKsq3KqJ7.RW5lwSiftiYEjS', 'สมชาย ใจร้าย', 'name2@gmail.com', '0325132658', 'active', '2026-01-10 23:59:22', '2026-01-10 23:59:22'),
-(3, 'user3', '$2y$10$o/C5ZVDkSSHviKJIxsl92eMhuD4PEKkertRL4xHowrdR5TygEVvba', 'สมชาย ใจวาย', 'name3@gmail.com', '0215458754', 'active', '2026-01-11 00:00:05', '2026-01-11 14:07:42');
+(2, 'user2', '$2y$10$PU9pK5TvrhcNlQK.noeOhupbqJsR0qKsq3KqJ7.RW5lwSiftiYEjS', 'สมชาย ใจร้าย', 'name2@gmail.com', '0325132658', 'active', '2026-01-10 23:59:22', '2026-01-10 23:59:22');
 
 --
 -- Indexes for dumped tables

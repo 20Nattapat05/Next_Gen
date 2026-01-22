@@ -112,3 +112,12 @@
     max-height: 350px;
     overflow-y: auto;
 }
+
+/* Text truncate - 2 lines */
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 40px;
+}
