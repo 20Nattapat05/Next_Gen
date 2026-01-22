@@ -176,7 +176,8 @@ function CalculateCartTotal($user_id) {
         
         foreach ($cart as $item) {
             $item_subtotal = $item['price_per_unit'] * $item['quantity'];
-            $discount = ($item['event_discount'] ?? 0) * $item['quantity'];
+            $discount_per_unit = $item['price_per_unit'] * ($item['event_discount'] ?? 0) / 100;
+            $discount = $discount_per_unit * $item['quantity'];
             $item_total = $item_subtotal - $discount;
             
             $subtotal += $item_subtotal;
@@ -190,7 +191,7 @@ function CalculateCartTotal($user_id) {
                 'available_qty' => $item['product_qty'],
                 'picture' => $item['product_picture'],
                 'price_per_unit' => $item['price_per_unit'],
-                'discount_per_unit' => $item['event_discount'] ?? 0,
+                'discount_per_unit' => $discount_per_unit,
                 'item_subtotal' => $item_subtotal,
                 'item_discount' => $discount,
                 'item_total' => $item_total

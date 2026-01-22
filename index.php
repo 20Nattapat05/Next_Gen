@@ -67,7 +67,7 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
             <div class="card-body py-4">
                 <div class="row text-center align-items-center">
                     <div class="col-md-4 my-auto">
-                        <a href="order_status" class="h5 mb-0 fw-semibold text-decoration-none">
+                        <a href="order_history" class="h5 mb-0 fw-semibold text-decoration-none">
                             <i class="bi bi-receipt text-primary me-1"
                                 style="transform: rotate(-30deg); display: inline-block;"></i> ประวัติการสั่ง</a>
                     </div>
@@ -292,9 +292,8 @@ $showLoginAlert = isset($_SESSION['user_login_success']) && $_SESSION['user_logi
             <?php
                     // --- ส่วนคำนวณ Logic ---
                     $original_price = $product['product_price'];
-                    $discount = $product['event_discount'] ?? 0;
-                    $final_price = $original_price - $discount;
-                    $has_discount = ($discount > 0);
+                    $final_price = $product['final_price'];
+                    $has_discount = ($original_price != $final_price);
                     $stock = $product['product_qty'];
                     ?>
             <div class="col-md-4 mb-4">

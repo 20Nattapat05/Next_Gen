@@ -51,9 +51,9 @@ function GetRandomProducts($limit = 3) {
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($products as $product) {
+        foreach ($products as &$product) {
             if (!empty($product['event_id']) && $product['event_discount'] > 0) {
-                $product['final_price'] = $product['product_price'] - $product['event_discount'];
+                $product['final_price'] = $product['product_price'] * (1 - $product['event_discount'] / 100);
             } else {
                 $product['final_price'] = $product['product_price'];
             }
@@ -83,9 +83,9 @@ function GetAllProducts() {
         $stmt = $pdo->query($sql);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($products as $product) {
+        foreach ($products as &$product) {
             if (!empty($product['event_id']) && $product['event_discount'] > 0) {
-                $product['final_price'] = $product['product_price'] - $product['event_discount'];
+                $product['final_price'] = $product['product_price'] * (1 - $product['event_discount'] / 100);
             } else {
                 $product['final_price'] = $product['product_price'];
             }
@@ -117,7 +117,7 @@ function GetProductById($product_id) {
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($product && !empty($product['event_id']) && $product['event_discount'] > 0) {
-            $product['final_price'] = $product['product_price'] - $product['event_discount'];
+            $product['final_price'] = $product['product_price'] * (1 - $product['event_discount'] / 100);
         } else if ($product) {
             $product['final_price'] = $product['product_price'];
         }
@@ -183,7 +183,17 @@ function GetProducts($search = null, $product_type_id = null) {
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($products as &$product) {
+            if (!empty($product['event_id']) && $product['event_discount'] > 0) {
+                $product['final_price'] = $product['product_price'] * (1 - $product['event_discount'] / 100);
+            } else {
+                $product['final_price'] = $product['product_price'];
+            }
+        }
+        unset($product);
+        return $products;
     } catch (PDOException $e) {
         return [];
     }

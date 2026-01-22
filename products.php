@@ -171,9 +171,8 @@ $product_types = GetProductTypes();
                 <?php foreach ($all_products as $product): ?>
                     <?php
                     $original_price = $product['product_price'];
-                    $discount = $product['event_discount'] ?? 0;
-                    $final_price = $original_price - $discount;
-                    $has_discount = ($discount > 0);
+                    $final_price = $product['final_price'];
+                    $has_discount = ($original_price != $final_price);
                     $stock = $product['product_qty'];
                     ?>
                     <div class="col-md-3 mb-4">
@@ -318,15 +317,15 @@ $product_types = GetProductTypes();
 
         // คำนวณราคา
         const originalPrice = parseFloat(product.product_price);
-        const discount = parseFloat(product.event_discount || 0);
-        const finalPrice = originalPrice - discount;
+        const discountPercent = parseFloat(product.event_discount || 0);
+        const finalPrice = originalPrice * (1 - discountPercent / 100);
 
         // อัปเดต modal
         document.getElementById('productTitle').textContent = product.product_name;
         document.getElementById('productImage').src = 'assets/images/product/' + product.product_picture;
         document.getElementById('productName').textContent = product.product_name;
         
-        if (discount > 0) {
+        if (discountPercent > 0) {
             document.getElementById('productPrice').textContent = '฿' + finalPrice.toFixed(2);
             document.getElementById('productOriginalPrice').textContent = '฿' + originalPrice.toFixed(2);
         } else {

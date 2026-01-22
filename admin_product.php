@@ -148,7 +148,12 @@ $all_products = GetAllProduct($q, $cat, $sort);
                             </div>
                             <div class="card-body">
                                 <h6 class="fw-bold mb-1 text-truncate"><?php echo htmlspecialchars($row['product_name']); ?></h6>
-                                <p class="text-main fw-semibold mb-1">ราคา <?php echo number_format($row['product_price']); ?> บาท</p>
+                                <?php if ($row['product_price'] != $row['final_price']): ?>
+                                    <p class="text-main fw-semibold mb-0">ราคา <?php echo number_format($row['final_price']); ?> บาท</p>
+                                    <p class="text-muted small mb-0 text-decoration-line-through"><?php echo number_format($row['product_price']); ?> บาท</p>
+                                <?php else: ?>
+                                    <p class="text-main fw-semibold mb-1">ราคา <?php echo number_format($row['final_price']); ?> บาท</p>
+                                <?php endif; ?>
                                 <small class="text-muted d-block">คงเหลือ <?php echo $row['product_qty']; ?> ชิ้น</small>
 
                                 <div class="row">
